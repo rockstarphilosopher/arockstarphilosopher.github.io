@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A⊙0 · portfolio [secure]</title>
+    <title>A⊙0 · portfolio [final]</title>
     <style>
         /* ===== RESET & GLOBAL ===== */
         * {
@@ -12,12 +12,16 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background-color: #000;
             font-family: 'Inter', 'Helvetica Neue', system-ui, -apple-system, sans-serif;
             font-weight: 300;
             font-size: 0.65rem;
-            line-height: 1.4;
+            line-height: 1.6;
             letter-spacing: 0.02em;
             color: #fff;
             min-height: 100vh;
@@ -98,6 +102,10 @@
             cursor: pointer;
             transition: transform 0.2s ease, opacity 0.4s ease;
             pointer-events: auto;
+        }
+
+        .logo-container.home-blogs-visible {
+            opacity: 0.25 !important;
         }
 
         .logo-zero {
@@ -235,8 +243,45 @@
             font-size: 0.6rem;
             color: #ddd;
             outline: none;
-            width: 130px;
+            width: 200px;
             border-radius: 0;
+        }
+        .search-bar:focus {
+            border-color: gold;
+        }
+
+        /* Search Results Dropdown */
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(20,20,20,0.95);
+            backdrop-filter: blur(8px);
+            border: 0.5px solid rgba(255,215,0,0.3);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        .search-results.active {
+            display: block;
+        }
+        .search-result-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 0.5px solid #333;
+            cursor: pointer;
+            color: #ccc;
+            font-size: 0.65rem;
+        }
+        .search-result-item:hover {
+            background: rgba(255,215,0,0.1);
+            color: gold;
+        }
+        .search-result-item .type {
+            color: #666;
+            font-size: 0.55rem;
+            margin-left: 0.5rem;
         }
 
         /* ===== ADMIN & ANALYTICS STYLES ===== */
@@ -463,7 +508,7 @@
         /* ===== MAIN CONTENT STYLES ===== */
         .content {
             flex: 1;
-            max-width: 1400px;
+            max-width: 1000px;
             margin: 5rem auto 5rem;
             padding: 0 2rem;
             width: 100%;
@@ -483,6 +528,265 @@
         @keyframes fadeGlow {
             0% { opacity: 0.2; }
             100% { opacity: 1; }
+        }
+
+        /* ===== REDESIGNED HOMEPAGE WITH AMPLE SCROLLING ===== */
+        .home-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-area {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 10vh;
+        }
+
+        .hero-content h1 {
+            font-size: 1.2rem;
+            letter-spacing: 8px;
+            color: rgba(255,215,0,0.6);
+            margin-bottom: 1rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,215,0,0.3);
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
+        }
+
+        /* Spacer sections for ample scrolling */
+        .spacer-1 { height: 30vh; }
+        .spacer-2 { height: 40vh; }
+        .spacer-3 { height: 50vh; }
+
+        .section-divider {
+            text-align: center;
+            margin: 10vh 0;
+            color: rgba(255,215,0,0.2);
+            letter-spacing: 4px;
+            font-size: 0.5rem;
+        }
+
+        /* Full blog posts on homepage - blended background */
+        .home-blog-full {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 0;
+        }
+
+        .home-blog-full .blog-entry {
+            margin-bottom: 8rem;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(2px);
+            border: 0.5px solid rgba(255,215,0,0.2);
+            padding: 2rem;
+        }
+
+        .home-blog-full .blog-title {
+            font-size: 1rem;
+            color: gold;
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+            border-bottom: 0.5px solid rgba(255,215,0,0.3);
+            padding-bottom: 1rem;
+        }
+
+        .home-blog-full .blog-content {
+            font-size: 0.7rem;
+            line-height: 1.8;
+            color: #fff;
+            white-space: pre-wrap;
+            font-family: 'Inter', monospace;
+            border-left: 2px solid rgba(255,215,0,0.3);
+            padding-left: 2rem;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        /* Blog tab styles - fully readable */
+        .blog-panel {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 2.5rem 3rem;
+            border: 0.5px solid rgba(255,215,0,0.3);
+        }
+
+        .blog-panel h1 {
+            font-weight: 400;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            color: gold;
+            margin-bottom: 2rem;
+            border-bottom: 0.5px solid rgba(255,215,0,0.3);
+            padding-bottom: 0.5rem;
+        }
+
+        .blog-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .blog-list-item {
+            padding: 0.75rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border-left: 4px solid #ffd966;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .blog-list-item:hover {
+            background: rgba(255,215,0,0.1);
+            border-left-width: 8px;
+        }
+
+        .blog-display {
+            margin-top: 2rem;
+            border-top: 0.5px solid rgba(255,215,0,0.3);
+            padding-top: 2rem;
+        }
+
+        .blog-display.hidden {
+            display: none;
+        }
+
+        .blog-display h2 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: gold;
+        }
+
+        .blog-display .blog-content {
+            font-size: 0.7rem;
+            line-height: 1.8;
+            color: #fff;
+            white-space: pre-wrap;
+            font-family: 'Inter', monospace;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 1.5rem;
+            border-left: 2px solid rgba(255,215,0,0.3);
+            padding-left: 1rem;
+            background: rgba(0,0,0,0.3);
+            padding: 1rem;
+        }
+
+        .back-button {
+            background: transparent;
+            border: 0.5px solid goldenrod;
+            padding: 0.4rem 1.2rem;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #fff;
+            margin-bottom: 1rem;
+            border-radius: 0;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background: gold;
+            color: black;
+        }
+
+        .stay-informed-btn {
+            background: transparent;
+            border: 0.5px solid goldenrod;
+            padding: 0.6rem 1.8rem;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #fff;
+            margin-top: 2rem;
+            border-radius: 0;
+        }
+
+        .stay-informed-btn:hover {
+            background: gold;
+            color: black;
+        }
+
+        /* Course grid on Education page */
+        .course-grid-education {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .course-card-education {
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            border: 0.5px solid rgba(255,215,0,0.3);
+            padding: 2rem;
+            transition: 0.2s;
+        }
+
+        .course-card-education:hover {
+            border-color: rgba(255,215,0,0.8);
+            transform: translateY(-5px);
+        }
+
+        .course-card-education h3 {
+            color: gold;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .course-card-education .price {
+            color: #ffd966;
+            font-size: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .course-card-education p {
+            color: #ccc;
+            margin-bottom: 1.5rem;
+        }
+
+        .course-card-education .course-btn {
+            background: transparent;
+            border: 0.5px solid goldenrod;
+            padding: 0.5rem 1rem;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+        }
+        .course-card-education .course-btn:hover {
+            background: gold;
+            color: black;
         }
 
         .film-grid {
@@ -568,116 +872,6 @@
             font-family: 'Times New Roman', serif;
         }
 
-        .blog-panel {
-            background: #ffffff;
-            color: #111;
-            max-width: 800px;
-            margin: 3rem auto;
-            padding: 2.5rem 3rem;
-            box-shadow: 0 30px 50px -20px rgba(0,0,0,0.7);
-        }
-
-        .blog-panel h1 {
-            font-weight: 400;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            color: #222;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 0.5rem;
-        }
-
-        .blog-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .blog-list-item {
-            padding: 0.75rem 1rem;
-            background: #f5f5f5;
-            border-left: 4px solid #ffd966;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            color: #222;
-            text-transform: uppercase;
-        }
-
-        .blog-list-item:hover {
-            background: #e0e0e0;
-            border-left-width: 8px;
-        }
-
-        .blog-display {
-            margin-top: 2rem;
-            border-top: 1px dashed #aaa;
-            padding-top: 2rem;
-        }
-
-        .blog-display.hidden {
-            display: none;
-        }
-
-        .blog-display h2 {
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
-            color: #000;
-        }
-
-        .blog-content {
-            font-size: 0.7rem;
-            line-height: 1.8;
-            color: #333;
-            white-space: pre-wrap;
-            font-family: 'Inter', monospace;
-            max-height: 60vh;
-            overflow-y: auto;
-            padding-right: 1rem;
-            border-left: 2px solid #ffd966;
-            padding-left: 1rem;
-        }
-
-        .back-button {
-            background: transparent;
-            border: 1px solid #222;
-            padding: 0.4rem 1.2rem;
-            font-size: 0.6rem;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: 0.2s;
-            color: #222;
-            margin-bottom: 1rem;
-            border-radius: 0;
-            display: inline-block;
-        }
-
-        .back-button:hover {
-            background: #222;
-            color: #fff;
-        }
-
-        .stay-informed-btn {
-            background: transparent;
-            border: 1px solid #222;
-            padding: 0.6rem 1.8rem;
-            font-size: 0.65rem;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: 0.2s;
-            color: #222;
-            margin-top: 2rem;
-            border-radius: 0;
-        }
-
-        .stay-informed-btn:hover {
-            background: #222;
-            color: #fff;
-        }
-
         .stars-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -697,21 +891,6 @@
 
         .stars-active .stars-overlay {
             opacity: 1;
-        }
-
-        .course-list {
-            margin: 2rem 0;
-            border-left: 1px solid goldenrod;
-            padding-left: 1.5rem;
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(2px);
-            padding: 1.5rem;
-        }
-
-        .course-item {
-            margin: 1rem 0;
-            font-size: 0.8rem;
-            color: #fff9e6;
         }
 
         .testimonials {
@@ -863,7 +1042,7 @@
     </style>
 </head>
 <body id="appBody">
-    <!-- Security Badge (visible to visitors - builds trust) -->
+    <!-- Security Badge -->
     <div class="security-badge">🔒 LOCAL & SECURE · NO TRACKING</div>
 
     <!-- permanent deep space + golden beam -->
@@ -897,206 +1076,211 @@
             <a href="#" class="nav-link" data-page="music">Music</a>
             <a href="#" class="nav-link" data-page="blog">Blog</a>
             <a href="#" class="nav-link" data-page="education">Education</a>
-            <input type="text" placeholder="SEARCH..." class="search-bar" id="globalSearch">
+            <div style="position: relative;">
+                <input type="text" placeholder="SEARCH TITLES..." class="search-bar" id="globalSearch">
+                <div class="search-results" id="searchResults"></div>
+            </div>
         </nav>
     </div>
 
     <!-- Admin Login Button -->
     <div class="admin-login-btn" id="adminLoginBtn">⚙️ ADMIN</div>
 
-    <!-- Admin Panel with Analytics -->
+    <!-- Admin Panel (simplified) -->
     <div class="admin-panel" id="adminPanel">
         <span class="admin-close" id="adminClose">✕</span>
-        
-        <!-- Auth Section -->
         <div class="admin-section" id="adminAuthSection">
-            <h2>ADMIN ACCESS <span class="info-icon" data-tooltip="SHA-256 hashed • Rate limited • Session timeout">🔒</span></h2>
-            <p style="color:#666; margin-bottom:1rem;">Create your profile (first time) or login</p>
-            <input type="text" class="admin-input" id="adminUsername" placeholder="username" autocomplete="off">
-            <input type="password" class="admin-input" id="adminPassword" placeholder="password" autocomplete="off">
-            <button class="admin-btn" id="adminCreateBtn">Create Profile</button>
+            <h2>ADMIN ACCESS</h2>
+            <p style="color:#666; margin-bottom:1rem;">Login to manage content</p>
+            <input type="text" class="admin-input" id="adminUsername" placeholder="username">
+            <input type="password" class="admin-input" id="adminPassword" placeholder="password">
             <button class="admin-btn" id="adminLoginBtn2">Login</button>
             <div class="admin-status" id="adminStatus"></div>
-            <p style="color:#555; font-size:0.55rem; margin-top:1rem;">🔐 Passwords are hashed client-side • Never stored in plain text</p>
-        </div>
-
-        <!-- Main Admin Dashboard -->
-        <div class="admin-section" id="adminDashboard" style="display:none;">
-            <h2>📋 DASHBOARD</h2>
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                <button class="admin-btn" id="showAnalytics">📊 Analytics</button>
-                <button class="admin-btn" id="showBlogManager">📝 Blogs</button>
-                <button class="admin-btn" id="showFilmManager">🎬 Films</button>
-                <button class="admin-btn" id="showMusicManager">🎵 Music</button>
-                <button class="admin-btn" id="showCourseManager">📚 Courses</button>
-                <button class="admin-btn" id="showSecurityManager">🔒 Security</button>
-                <button class="admin-btn" id="adminLogout">Logout</button>
-            </div>
-            <div style="margin-top:1rem; color:#666; font-size:0.55rem; text-align:center;">
-                Session expires in <span id="sessionTimer">30:00</span> • Auto-logout enabled
-            </div>
-        </div>
-
-        <!-- ANALYTICS DASHBOARD -->
-        <div class="admin-section" id="adminAnalyticsSection" style="display:none;">
-            <h2>📊 ANALYTICS DASHBOARD <span class="info-icon" data-tooltip="All data anonymized • No IPs stored • GDPR compliant">i</span></h2>
-            
-            <div class="analytics-grid">
-                <div class="analytics-card">
-                    <span class="info-icon" data-tooltip="Total number of visits to your site">i</span>
-                    <h3>Total Visits</h3>
-                    <div class="value" id="statTotalVisits">0</div>
-                </div>
-                <div class="analytics-card">
-                    <span class="info-icon" data-tooltip="Unique visitors (counted once per day)">i</span>
-                    <h3>Unique Visitors</h3>
-                    <div class="value" id="statUniqueVisitors">0</div>
-                </div>
-                <div class="analytics-card">
-                    <span class="info-icon" data-tooltip="Average time spent on site">i</span>
-                    <h3>Avg. Session</h3>
-                    <div class="value" id="statAvgSession">0:00</div>
-                </div>
-                <div class="analytics-card">
-                    <span class="info-icon" data-tooltip="Pages viewed per visit">i</span>
-                    <h3>Pages/Session</h3>
-                    <div class="value" id="statPagesPerSession">0.0</div>
-                </div>
-            </div>
-
-            <div class="analytics-chart">
-                <h3 style="color:gold; margin-bottom:1rem;">📄 Top Content</h3>
-                <div id="topPagesContainer"></div>
-            </div>
-
-            <div class="analytics-chart">
-                <h3 style="color:gold; margin-bottom:1rem;">🌐 Traffic Sources</h3>
-                <div id="trafficSourcesContainer"></div>
-            </div>
-
-            <div class="analytics-chart">
-                <h3 style="color:gold; margin-bottom:1rem;">💰 Affiliate Performance</h3>
-                <table class="analytics-table" id="affiliateTable">
-                    <thead>
-                        <tr><th>Link</th><th>Clicks</th><th>Conv %</th><th>Est. Earnings</th></tr>
-                    </thead>
-                    <tbody id="affiliateTableBody"></tbody>
-                </table>
-            </div>
-
-            <div style="display:flex; gap:1rem; margin-top:2rem;">
-                <button class="admin-btn" id="exportAnalytics">📥 Export Data</button>
-                <button class="admin-btn" id="resetAnalytics" style="border-color:#933;">⚠️ Reset Data</button>
-                <button class="admin-btn" id="backFromAnalytics">← Back</button>
-            </div>
-        </div>
-
-        <!-- SECURITY MANAGER -->
-        <div class="admin-section" id="adminSecuritySection" style="display:none;">
-            <h2>🔒 SECURITY SETTINGS</h2>
-            
-            <div style="margin-bottom:2rem;">
-                <h3 style="color:gold; font-size:0.7rem; margin-bottom:1rem;">Session Management</h3>
-                <div style="display:flex; gap:0.5rem; align-items:center;">
-                    <span style="color:#ccc;">Timeout (minutes):</span>
-                    <input type="number" class="admin-input" id="sessionTimeout" value="30" min="5" max="120" style="width:80px;">
-                    <button class="admin-btn" id="saveSessionTimeout">Save</button>
-                </div>
-            </div>
-
-            <div style="margin-bottom:2rem;">
-                <h3 style="color:gold; font-size:0.7rem; margin-bottom:1rem;">Rate Limiting</h3>
-                <p style="color:#ccc; font-size:0.6rem;">Max login attempts: <span id="loginAttempts">5</span> (15 min lockout)</p>
-                <button class="admin-btn" id="resetLoginLock">Reset Login Lock</button>
-            </div>
-
-            <div style="margin-bottom:2rem;">
-                <h3 style="color:gold; font-size:0.7rem; margin-bottom:1rem;">Data Encryption</h3>
-                <p style="color:#ccc; font-size:0.6rem;">All stored data is encrypted with AES-256-GCM</p>
-                <p style="color:#ccc; font-size:0.6rem;">Encryption key: <span style="color:#666;">derived from your password</span></p>
-                <button class="admin-btn" id="rotateEncryptionKey">Rotate Encryption Key</button>
-            </div>
-
-            <div style="margin-bottom:2rem;">
-                <h3 style="color:gold; font-size:0.7rem; margin-bottom:1rem;">Audit Log</h3>
-                <div class="admin-list" id="auditLogContainer" style="max-height:150px;">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-
-            <div style="display:flex; gap:1rem;">
-                <button class="admin-btn" id="backFromSecurity">← Back</button>
-                <button class="admin-btn" id="exportSecurityLog">📋 Export Log</button>
-            </div>
-        </div>
-
-        <!-- Blog Management -->
-        <div class="admin-section" id="adminBlogSection" style="display:none;">
-            <h2>📝 BLOG MANAGER <span class="info-icon" data-tooltip="Content is sanitized • XSS protected">i</span></h2>
-            <div id="adminBlogList" class="admin-list"></div>
-            <h3 style="color:gold; margin-top:2rem;">Add New Blog</h3>
-            <input type="text" class="admin-input" id="newBlogTitle" placeholder="blog title">
-            <textarea class="admin-input" id="newBlogContent" rows="4" placeholder="blog content..."></textarea>
-            <button class="admin-btn" id="saveNewBlog">Save Blog</button>
-            <button class="admin-btn" id="backFromBlogs">← Back</button>
-        </div>
-
-        <!-- Film Management -->
-        <div class="admin-section" id="adminFilmSection" style="display:none;">
-            <h2>🎬 FILM MANAGER</h2>
-            <div id="adminFilmList" class="admin-list"></div>
-            <h3 style="color:gold; margin-top:2rem;">Add New Film</h3>
-            <input type="text" class="admin-input" id="newFilmTitle" placeholder="film title">
-            <input type="text" class="admin-input" id="newFilmUrl" placeholder="Vimeo URL">
-            <button class="admin-btn" id="saveNewFilm">Save Film</button>
-            <button class="admin-btn" id="backFromFilms">← Back</button>
-        </div>
-
-        <!-- Music Settings -->
-        <div class="admin-section" id="adminMusicSection" style="display:none;">
-            <h2>🎵 MUSIC SETTINGS</h2>
-            <div style="margin-bottom:1rem;">
-                <label style="color:#ccc;">Rotation Speed</label>
-                <input type="range" class="admin-input" id="musicRotationSpeed" min="0" max="2" step="0.1" value="0.8">
-            </div>
-            <button class="admin-btn" id="saveMusicSettings">Save Settings</button>
-            <button class="admin-btn" id="backFromMusic">← Back</button>
-        </div>
-
-        <!-- Course Management -->
-        <div class="admin-section" id="adminCourseSection" style="display:none;">
-            <h2>📚 COURSE MANAGER</h2>
-            <div style="margin-bottom:1rem;">
-                <label style="color:#ccc;">Critical Thinking Price (€)</label>
-                <input type="number" class="admin-input" id="course1Price" value="67">
-            </div>
-            <div style="margin-bottom:1rem;">
-                <label style="color:#ccc;">Philosophy & Art Therapy Price (€)</label>
-                <input type="number" class="admin-input" id="course2Price" value="147">
-            </div>
-            <div style="margin-bottom:1rem;">
-                <label style="color:#ccc;">Art & AI Price (€)</label>
-                <input type="number" class="admin-input" id="course3Price" value="197">
-            </div>
-            <button class="admin-btn" id="saveCourseSettings">Save Prices</button>
-            <button class="admin-btn" id="backFromCourses">← Back</button>
         </div>
     </div>
 
     <!-- main content sections -->
     <div class="content" id="mainContent">
+        <!-- REDESIGNED HOME PAGE -->
         <section id="home" class="page-section active-section">
-            <div style="text-align:center; margin-top:12vh; color:rgba(255,255,255,0.4);">
-                <p style="font-size:0.7rem;">A ⊂ 0</p>
-                <p style="margin-top:1rem;">hover over the logo</p>
+            <div class="home-section">
+                <!-- Hero Area - First View -->
+                <div class="hero-area">
+                    <div class="hero-content">
+                        <h1>A ⊂ 0</h1>
+                        <p style="margin-top:1rem; color:rgba(255,215,0,0.3);">hover over the logo</p>
+                    </div>
+                    <div class="scroll-indicator">↓ SCROLL ↓</div>
+                </div>
+
+                <!-- Spacers for ample scrolling -->
+                <div class="spacer-1"></div>
+                <div class="section-divider">✦ ✦ ✦</div>
+                <div class="spacer-2"></div>
+                <div class="section-divider">✦ ✦ ✦</div>
+                <div class="spacer-3"></div>
+                <div class="section-divider">✦ ✦ ✦</div>
+                <div class="spacer-2"></div>
+
+                <!-- Full Blog Posts on Homepage -->
+                <div class="home-blog-full">
+                    <h2 style="color:gold; text-align:center; margin-bottom:3rem; font-weight:300; letter-spacing:4px;">ESSAYS</h2>
+                    
+                    <!-- Blog 1: Arendt/Velleman -->
+                    <div class="blog-entry" id="home-blog-arendt">
+                        <h3 class="blog-title">Arendt on the individual / Velleman on the individual</h3>
+                        <div class="blog-content">
+Arendt on the individual
+
+... the moment men willed freedom, they lost their capacity to be free.
+
+Aristo Mijnals
+
+Since my younger years, I was an energetic kid who was tameless in his pursuits, always smiling and socializing, even as a toddler. Nothing out of the ordinary. Just a typical boy, my mom grinned, recovering those memories. Growing up, this energetic side, this urge to just do, got subdued. I believe my high school years played a big part in this. Even after high school. Believing that I will go into a career of finance with a jetset lifestyle. Yet, I felt subdued from the inside and out, and after failing two studies in a row, I felt paralyzed, not knowing what to do with myself. My peers sensed this and tried to help; Just figure out what you want! Is that it? My will is not strong enough? Instinctively, I opposed that belief but kept it to myself. If any, it'd be that I wanted so much. Months later, randomly, I joined an acting improvisation performance. The performance, that moment, that openness and connection with the public. It was amazing! Acting freely with others, not knowing something, that night, had been restored. My freedom.
+
+This story shows a problem many of us face: The problem of equating freedom with free- will. In this essay we will explore this issue and how we can deal with it, trying to answer the question: How can an individual express themselves and act freely in the world? And if there is a writer who formulated my initial instinct concerning individual will- power, it's Hannah Arendt.
+
+Individual freedom is an important notion in Western societies and has a history in philosophy and political theory. In Freedom and Politics, Hannah Arendt takes on the concepts of freedom, free- will, and will- power and how it relates to action. To get a grasp on the issue of individual freedom and action, Arendt traces the ideas back to, what she calls, the ancients. The Greeks conceived their notions of freedom but did so in a distinctive manner. The ancients saw freedom as an actualization of acting and association with their peers and she saw freedom as a principle which is actualized in the performing act. Politics and the performance arts, very much like Arendt sees it herself, are often seen as closely related. They both need a public place and are dependent on others for their performance. They are indeed affiliates of each other.
+
+The problems arose when freedom became synonymous with free- will and free- thought, where both concepts became a subject for philosophers; this is called philosophical freedom. Political freedom stands opposed to this, as seen by Montesquieu, philosophical freedom's primary concern is the will independent of worldly consequences. When philosophy transposed these concepts of freedom to political theory the consequences were fatal Arendt says. The will and how it stands in relation to its subject gave rise to a specific conflict. The will, what Arendt calls I- will, peculiarly limits the I- can. The will can command a subject to will certain things and, because it relates to its subject, to will something is to deny something else. It thus limits what the subject can do. In this sense, the will can have a limiting effect on a subject's actions. Yet, philosophically, especially with Augustine, will- power became the place where individual freedom would lie, it is what we know now as free- will. This will- power changed the aspiration of freedom from virtuosity, an ideal aspiration for performance and action, to sovereignty. So free- will became limited to the subject - while at the same time, got distributed equally to every subject in Western societies - where it would reign as a lonely king waging war against himself. The idea that will- power served self liberation paralyzed the individual. On the contrary, will- power disguised as self liberation became a will- to- oppress itself.
+
+Equating the capacity of the will with freedom had fatal consequences for political theory, Arendt states. The sovereign individual came in self conflict and this conflict grew between the willing self and the performing self. Individual freedom, as free- will and thought, and as a cornerstone in modern Western societies, was the sovereign standing separate and alone in the world. Political theory had to deal with this problem whilst still being concerned with action of a whole society, but because sovereignty, or in other words free- will, became the new ideal for freedom the primary concern for this domain became security. Once established as the principle of freedom, free- will made self control a much sought after ideal, where the will operates as a prison guard and the individual could not express its actions freely. For the ancients, Arendt states, this isn't freedom. Coinciding with the ancients, Montesquieu's distinction between philosophical and political freedom was, therefore, valid: political freedom is doing what one ought to will.
+
+Again drawing from the ancients Arendt notes that freedom lies in spontaneous acts. Beginnings that coincide with action, even hinting towards the ability to perform miracles. Performing spontaneous acts asks something else from the individual, it takes courage. And here she, quite courageously, sees the philosophical implication of the words of Jezus of Nazareth, attributing him with a great understanding of the capacity of human freedom; it's not the will, it's faith.
+
+As I see it, to act freely, without any self inhibition or willing what the outcome of your actions are, the results from your actions might very well surprise yourself and the world. It takes courage to act without willing and just do. And this freedom is indispensable. This is why the performance arts are captivating, especially the ones that improvise collectively. The performers are free in moving and expressing themselves, alone or together, whatever happens, it can just happen. And every performer can attest that to come to such a place of freedom might just never come, even after rigorous training and if they do reach that freedom, it's captivating for them and the public alike. Because here, witnessed by others, we experience freedom. As if it hints to a promised land where humans can freely be themselves with others and here Arendt saw a great difference, such a performer had given something up, his sovereignty made way for faith.
+
+Arendt sees the incompatibility of philosophical and political freedom as a great concern coining will- power and its consequential sovereignty as the culprits. She points towards spontaneous action, new beginnings, and faith as true capacities of human freedom in a shared public space. The stakes are high concerning this topic if we just take a look at our contemporary political systems and increasing controlling measures. It is not to say that the will is a worthless element of the individual, it just, when standing like a monolith to freedom, viable for a paralyzing tyranny against the subject. If we are to experience freedom as living beings it would rather lie in spontaneous actions where the will coincides with doing. Performances as such, especially improvised performances as we experience with let's say, jazz musicians who collectively improvise, might serve as a glimpse of a possible political reality coinciding with individual freedom of expression.
+
+
+Velleman on the individual
+
+..a sense of the complexity, multidimensionality, and polyvalency of the self is a developmental milestone and achievement.
+
+When considering the individual in Velleman's case there is a main issue that he turns against. It is no coincidence that this issue is fundamentally the same that Arendt addresses. The main issue is simply this. Essentialism. Velleman is not convinced that the individual fundamentally consists of essential attributes and he makes his case arguing against Harry Frankfurt. In Identity and identification, he starts by stating Frankfurt's position: "Frankfurt's conception on self is on that being autonomous is to be self governed from within." Where Frankfurt later revised this statement: "motives are internal to the self when they are essential to the subjects volitions." Here we see the same issue that Arendt foresaw in her historical analysis of the concept of freedom and Velleman points this out, although his line of reasoning leads him to a psychological context rather than Arendt's political focus.
+
+After quoting Frankfurt, Velleman asks a viable question regarding Frankfurt's individual essentialism: What makes contingent interests essential to the nature of a person's will? Here Velleman develops his answer in stages. First, he points out Frankfurt's infinite regressions regarding first and second- order inabilities. A person can voluntarily will an inability, out of volitional necessity, where an individual comes through reflective endorsement. Velleman isn't convinced and points out that reflective endorsement isn't enough because a person can withhold reflective endorsement whilst still performing - yet Frankfurt responds by regressing further into the hierarchy of inabilities. Secondly, Velleman makes the point that if it is essential, the essence of a person would always be the case, not allowing for the regression in volitional inabilities that Frankfurt adheres to. What's at stake here is the notion of individual autonomy that Frankfurt posits. A person is autonomous because he can limit his actions with volitional necessity which is essential for an internal self. And even though the terms we use now may seem different from Arendt's reasoning, they fundamentally address the same problem. Frankfurt struggles with the self imposing will that limits the actions of an individual and how this can stand in relation to freedom.
+
+Concerning personal autonomy Velleman shows that an individual can very well be too autonomous, too self controlled, imprisoning his behaviour which we perceive as unnatural. This is where Arendt argues for losing sovereignty for spontaneous action, but where Arendt contributes by replacing free- will with faith, fundamentally changing the essence, Velleman makes a case for a fundamental non- essentialism. The sense of personhood, Velleman says, is possible, but rather through psychological connections via memory and anticipation, not by essential and necessary volitions like Frankfurt states.
+
+It is interesting that Velleman's point, where personhood is established through memory and anticipation, seems to represent two schools of thought in the performance art of acting. Where Lee Strassberg's acting studio stands for using emotional memory as opposed to Stella Adler's acting technique which stands for imagination, which lies close to anticipation.
+
+Returning to Velleman. He takes on the notion of identification to show that personal harmony of wholeheartedness, as Frankfurt poses, isn't necessary for a person to perform. Velleman further argues against Frankfurt in that volitional necessities are not legitimate to count as essential. There is no need to avoid conflict like Frankfurt's essential volitions demand. A person might very well be ambivalent and still function as an individual. He shows this with examples of identification. A child can imagine being someone else and does so with the conviction of being the imagined object and behaves in accordance with it. He states: "Identifying is thus something that we do, in the first instance, with people other than ourselves."
+
+Velleman's concept of the self is defined as follows: "In my view, 'self' is just a word used to express reflexivity - that is, the coincidence of object and subject, either of a verb or of the activity that it represents." Later on, he confers to his non- essentialism: "Although 'self' expresses reflexivity in each of these contexts, there is no single entity to which it refers in all of them." Meaning that in so far multiple persons refer to themselves as I, it is their own self- reflexivity that they refer to, not a singular essential self. To answer the question "what is the self?" is equally difficult as obscure because the nature of the question commands to grasp an essence, in which I believe Velleman to be right that there isn't, yet he, in my view, falls in the trap of wanting to grasp this essence by formulating a definition of it. If any, are we to experience the self free in action, we would be wise to not search for its essence but its workings. This is what Wittgenstein points at when he states: we don't start from words, but certain occasions and activities. Yet, I believe Velleman is more perspicuous then Frankfurt, and, to be fair to Velleman, he does point in an interesting direction when he explains the process of identifying: "identifying is something that we do, in the first instance, with people other than ourselves." We can see Arendt's resounding insight; freedom lies in a shared public space where individuals act freely associating with each other.
+
+Very much like Arendt did in the first part of this paper, addressing the problem of situating the freedom of the individual in free- will which ultimately paralyzes itself, Velleman sees the same issue arguing against Frankfurt that an essentialist view of the individual rather points to an excess of self- control debilitating freedom of action. As Arendt points towards the performing self as the catalyst of freedom, we can imagine performing artists, especially involved in the process of free improvisation, delivering clarity on this subject of freedom concerning the individual, but we have arrived at a particular point where Velleman has guided us, since there is no personal essence that satisfies us, if we are to further our quest for individual freedom, we have to look at processes where individuals do so collectively, while performing, as to look at what we can infer from those processes.
+
+Up till now, I have argued that philosophical freedom can coincide with political freedom in that the individual is not solely an essence but rather a concentration which moves accordingly with focus. In the next section we'll take a look at how performance (art) - especially collective free improvisation - might combine individual and collective freedom.
+
+So Arendt points towards the performing act and this is why it's fruitful to take a look at individuals who practice such performances. Lucia Angelino undoubtedly had this in mind when writing her essay on Collective Free Improvisation. Analyzing free improvisation of jazz musicians she offered that such practices could very well offer us new insights into a political reality where individual freedom of expression coincides with collective freedom. Angelino states: "... comparable to a kind of collective conversation: as in a conversation, musicians play parts that are autonomous, but not independent, interdependent and yet free." Making the step from independence towards interdependence is an important one because it acknowledges that an individual does have internal motivation, although not essential, this is what Velleman showed us - yet it, these internal motivations, serve the collective by freely associating, or identifying if you will, with others, while maintaining freedom of individual expression, all, of course, happening during the performance. Angelino continues: "In spite of these considerations, we must not overlook the fact that this kind of bond relates and separates musicians at the same time, revealing their plural condition."
+
+The point Angelino makes, concerning a state of separateness and relationality, is why Velleman did see Frankfurt's point and why he did not discard personal autonomy but rather would point towards personal authenticity being the consequence of central personal motivations. This plural condition, of standing separate and related to one another, is what Angelino credits Arendt with, relational plurality. That Angelino sees the possibility of a political reality in the performance of collective free improvisation is shown in her following statement:
+
+"Like a kind of song for more than one voice whose melodic principle is the reciprocal distinction of the unmistakable timbre of each participant, the community that results from Mingus' and Coleman's group improvisations is a community in which individuals are called to distinguish themselves, while actively and reciprocally communicating with others in a shared space of reciprocal exhibition. In this respect, it offers an example of the Arendtian concept of relational plurality whereby the plurality of human beings, is translated into a multiperspective and active reciprocation of worldviews through speech and deeds."
+
+Possibly, you ask why consider collective dynamics if we are primarily concerned with individual freedom? Arendt already showed us that solely considering the individual as a separate and sovereign entity results in tyranny against oneself, what Velleman addressed with the example of an overly self controlled, too autonomous individual, and if freedom is to be found it would be found in a public space where an individual could act freely. Where Angelino, rightly so, points towards not an independent but rather interdependent state of the individual, again attesting to what Arendt called the giving up of sovereignty. Although I think this giving up of sovereignty needs some nuance. It is not, at least in my view, that individual sovereignty should be completely discarded, it, like Velleman said earlier, can lead to personal authenticity. To follow this line further. Consider that the musicians of the collective improvisation are not just playing gibberish, they are each skilled musicians whose merits came through hours of practice and hardship in general. Here they acquired their distinctive timber through this personal journey which is authentic and theirs alone. One might ask; could we not consider a performing artist who is just not able to perform in front of a public equally free? The performing artist might very well be an authentic individual but we cannot consider the performer free if she is not able to perform with others, if it is with a band or just in front of a public. For if the artist is to freely express herself she has to, in the performance itself, give up her sovereignty, her self control, to freely associate with others. This sharing of a public space, as Arendt argued, is integral to freedom.
+
+To summarize my main points; I've argued that philosophical freedom can coincide with political freedom in that the individual is not solely an essence but rather a concentration who moves accordingly with others without giving up individual authenticity, and performance (art) - especially collective free improvisation - shows this by combining collective freedom and individual freedom.
+
+Oftentimes the feeling of responsibility might have a limiting effect on an individual and combine this with your own will that can take you as a prisoner and we have a classic example of an individual who is paralyzed by fear to just be themselves instead of acting freely and authentically. For freedom for an individual can be taken away not just from the outside, it may very well be taken away from the inside. In this respect, it takes courage to be and act as yourself in this world. More so if you act without knowing what the outcome may be of your actions. For instance, I have no idea if this essay will be enough to get my degree in Philosophy. Yet, whatever will be the case, I have to try, I have to act according to others, my tutor, to produce this essay in a public space. Certainly, it wouldn't have worked if I hadn't written this essay. If I would not have acted. It takes courage to stand with your perspective and share it with others, something, I think, many writers can attest to.
+
+I have noticed a peculiar phenomenon in the process of writing this essay. Whereat first, I solidified, freezing, not able to produce a word, even afraid of the prospect of getting my degree, there came an instance where my will, which held me as a prisoner at first, initiated action and coincided with performing for this essay, fluidly, in conjunction with what the options were in my environment. I'm not certain if it is just will- power, if so, this effort was my prison. However, it did not feel like one, I experienced wonderful moments. My individuality became fluid, understanding my surroundings and position, in which there was nothing left but to go with it. I think Arendt, through Jezus of Nazareth, made a monumental point: it is not will- power, I'm convinced faith is the human capacity for freedom.
+
+
+Sources
+Arendt, H. (1960), "Freedom and Politics: A Lecture", Chicago Review. Vol. 14, no. 1. pp. 28-46. Velleman, J.D. (2005), "Identification and Identity", Cambridge University Press, London.Angelino, L. (2020), "Collective Intentionality and The Further Challenge of Collective Improvisation", Continental Philosophy Review. Vol. 53. pp. 49-65. Arendt, H. (1958), "The Human Condition", University of Chicago Press, London.Velleman, J.D. (2005), "Self to Self", Cambridge University Press, London.Hagberg, G.L. (2017), "Wittgenstein on Aesthetic Understanding", Springer Nature, Stuttgart.Barret, C. (1967), "Wittgenstein's Lectures on Aesthetics, Psychology and Religion", University of California Press, Los Angeles.Tilghman, B.R. (1991), "Wittgenstein, Ethics and Aesthetics: The View From Eternity", The MacMillan Press, New York.Stanislavski, K. (2017), "An Actor's work", Routledge, New York.Staal, J. (2019), "Propaganda Art in the 21st Century", The MIT Press, London.
+                        </div>
+                    </div>
+
+                    <!-- Blog 2: De Komedie van het Nihilisme -->
+                    <div class="blog-entry" id="home-blog-joker">
+                        <h3 class="blog-title">De Komedie van het Nihilisme</h3>
+                        <div class="blog-content">
+De Komedie Van Het Nihilisme: Wat voor perspectieven brengt de film The Joker binnen de Westerse samenleving?
+
+Introductie
+
+In een tijd waar controle sterker wordt met de snelle ontwikkelingen van techne is het opmerkelijk hoe fragiel orde en systemen blijken te zijn. Het lijkt er bijna op alsof de groei van controle, - of dit nou op individueel, collectief of staats niveau is -, chaos voedt. De angsten, spanningen en stress die op dagelijks niveau voelbaar zijn terwijl ons leven ten aanzien van de generaties voor ons veel makkelijker lijkt en onze opties voor transport, voeding en, - wellicht het meest baanbrekende domein van onze tijd -, informatie, wordt voor een 19e eeuwse burger op een magische wijze uitgewisseld. Vooralsnog voelt het dagelijkse niet makkelijker, integendeel we kampen met een moderne mentale ziekte genaamd burn-out, we zien op collectief niveau dat steeds meer mensen uitgebrand raken door de druk van het dagelijks leven. De meeste doen hun best om de eindjes bij elkaar te knopen terwijl connecties maken binnen de materiële wereld in een steeds rapper tempo plaatsvindt en de bijbehorende sociale verwachting dit ritme vast te houden eist zijn tol op de burgers.
+
+En het is wellicht deze sfeer van druk in het dagelijks leven waardoor een film als The Joker zoveel lof en aandacht krijgt in deze tijd. Bij het zien van de film kon ik het niet laten om dieper op de thema's in te gaan en mede daardoor kies ik het als onderwerp voor de eindpaper van dit vak. De vragen: Wat doet het werk met mij? Hoe beschrijf ik wat het werk nog meer teweegbrengt? Waarom vind ik de voorgaande punten belangrijk? En welke filosofische inzichten kan ik verbinden met mijn beschrijvingen? Gebruik ik als leidraad voor deze uiteenzetting en zijn bijbehorend in de volgende hoofdstukken verdeeld:
+
+- The Joker en Het Spel
+- The Joker als propaganda
+- Het belang van een lach
+- The Joker en Filosofie
+
+Ook zijn de termen Spel en Perspectief als twee pijlers genomen die tevens als begrippenapparaat voor deze paper gelden. Verder probeer ik cruciale momenten van de film buiten beschouwing te laten zodat, mocht u de film nog niet gezien hebben en als u de film zou willen kijken, uw eerste ervaring bij het zien ervan hopelijk zo indrukwekkend is als toen voor mij.
+
+The Joker en Het Spel
+
+Ik zat in de Tuschinsky met mijn vriendin te wachten op de nachtvoorstelling, de premiere, van The Joker. Deze bioscoop blijft een sterk symbool voor de Nederlands film historie hoewel ik toegeef niet het fijnste te weten van de Nederlandse filmgeschiedenis maar het blijkt telkens voelbaar, al is het de entree of de kleuren van het hout en het warme gevoel van het tapijt dat overtuigend werkt in mij doen geloven dat de jaren 20 van de vorige eeuw er zo uit hebben moeten zien. De zaal voelde decadent en elitair, alsnog omarmde ik deze sfeer maar al te graag, al was het maar voor twee uren. De film was intens, een combinatie van ongemakkelijkheid, sympathie, afschuw, cynisme en hoop, een combinatie die mij na het zien van de film verstilt achterliet. De inhoud van de film stond in sterk contrast met mijn eerste indruk van de zaal; de film was allesbehalve decadent en elitair, in tegendeel, het zette aan tot revolutie en persoonlijke vrijheid. Wat wilt deze film mij bijbrengen? Heeft het een boodschap? Zo ja, wat voor boodschap is dat dan?
+
+Het indrukwekkende van de film is de communicatie op abstract niveau, die natuurlijk op een concrete wijze getoond lijkt te worden, waar diezelfde concreetheid weer in twijfel wordt getrokken om vervolgens de dan logische vraag te stellen: Wat is echt? Of althans, wat, in lijn met het verhaal van de film, kan ik als echt beschouwen? Een vraag die Arthur Fleck (The Joker)  zichzelf op een bepaald moment waarschijnlijk gesteld heeft.
+
+Het proces en de groei van Arthur Fleck tot The Joker zijn herkenbaar als kijker, zijn naïeve welwillendheid, zijn machteloosheid, zijn verlangen om geaccepteerd te worden door anderen, zijn groei tot autonomie, zijn drift tot macht, - hoewel dit stuk genuanceerder lijkt te liggen in dat hij de macht van de heersende orde juist wilt deconstrueren -, raken snaren op een psychologisch niveau want zijn ervaringen, hoe bizar zij ook lijken, zijn die van een persoon die, hoezeer hij ook zijn best doet, keer op keer tegen een enerzijds onzichtbare maar anderzijds zichtbare muur van het systeem, waarin hij leeft, op loopt. En het is precies deze herkenbaarheid die de weg opent naar de diepe indruk die deze film achterlaat, want de herkenbaarheid gekoppeld met een sympathie voor het character, zorgt voor een open attitude ten aanzien van de filosofie van Arthur Fleck, wat ik noem: een filosofie van het komisch nihilisme.
+
+Er wordt sterk gespeeld met contrasten in de film, enerzijds vind je orde anderzijds chaos, enerzijds rijk anderzijds arm, enerzijds goed anderzijds kwaad, enerzijds, realisme anderzijds fantasie, enerzijds controle anderzijds impulsiviteit; er kunnen vast meerdere dichotomieën genoemd worden maar ik acht deze als voldoende voor deze paper, want deze contrasten maken een centraal punt die Schiller maakte met zijn brieven, er is een wisselwerking tussen driften en een derde drift de speeldrift wil deze verzoenen om tot een ontstijging van zintuiglijkheid en rede te komen. Het lukt Arthur Fleck om zijn eigen leven een levend gestalte te maken: er zou een sterk punt gemaakt kunnen worden dat het figuur van The Joker precies deze levende gestalte is.
+
+De Joker als Propaganda
+
+Dat propaganda en kunst samengaan wordt door Jonas Staal beargumenteerd in zijn proefschrift Propaganda Art in the 20th and 21st century. Het is een perspectief op kunst dat, in licht van de film The Joker, een legitieme vraag oproept: Wat brengt dit werk teweeg? Allereerst is deze film een kassucces gebleken, met lovende kritieken, het laatste, wat inmiddels een zeldzamer wordend verschijnsel is van de productiemachine genaamd Hollywood, is in de kern wat de film zelf sterk representeert: kritiek op de kapitalistische en schijnbaar democratische samenleving.
+
+Om een stap verder te gaan, wat zou The Joker propageren? De representaties in de film zijn fictief en gebaseerd op een comic book maar het is de wereld niet ontgaan dat deze film erg realistische representaties gebruikt van de moderne stad New York en om specifieker te zijn; het New York van de jaren '70 van de vorige eeuw. Waarom representeert de film specifiek die tijd? De seventies staan bekend als een slag naar het cynisme en wantrouwen van de burger ten aanzien van de staat, denk aan de Vietnam oorlog, en de steeds groter wordende protesten, het Watergate schandaal van toenmalige president Richard Nixon, de films die toen voor het eerst als medium voor kritiek werden gebruikt. De optimistische films uit de jaren '60 maakten plaats voor het cynisme en kritische blik op de samenleving van de filmmakers met films als Taxi Driver, Deer Hunter en Apocalypse Now, waarin protagonisten de grens tussen goed en kwaad niet meer helder voor ogen hadden. Die films hadden een sterke bias ten aanzien van het overheidsbeleid dat gevoerd werd door Amerika, in die zin zijn de films van die periode propagandas die een andere conceptie van de samenleving voor ogen hadden. Er is dan wel een frictie te vinden met het aanbieden van de representaties van deze andere concepties en met name The Joker heeft kritiek gekregen dat het met de representatie van chaos en geweld aanzet tot geweld in samenlevingen, en hoewel dit punt vatbaar is voor debat, zie ik de concepties van de film verschillen van de daadwerkelijke representaties. Het is een duidelijke representatie als The Joker een ander persoon vermoord, maar gezien zijn proces, groei en eigen reflectie daarop, zie ik daar eerder het concept van verzelfstandiging in en is het juist deze autonomie die Arthur Fleck een nieuw gevonden vrijheid lijkt te geven en dit erkennen kan voor mij samen gaan met het snappen dat moorden moreel verwerpelijk is.
+
+De spirit van de jaren '70 is hier een belangrijk aanknopingspunt met dat het aanduidt in wat voor machtsstructuur de film zich bevindt: het is er een van maatschappijkritiek en een overwegend cynisch houding ten aanzien van overheidsmachtsstructuren waar tegelijkertijd autonomie, vrijheid en zelfverwerkelijking als gewenst worden beschouwd.
+
+Het belang van een lach
+
+Schiller gaf met zijn brieven een beschrijving van wat volgens hem de speeldrift is: een drift die de zintuiglijke en redelijke driften samenbrengt in wat hij de levende gestalte noemt en deze levende gestalte staat gelijk aan schoonheid. Het zou niet vreemd zijn om een Hegeliaanse dialectiek die leidt naar een overstijging van de vorige condities te zien in Schiller's notie van de speeldrift. De notie van de levende gestalte vind ik een interessante in dat het toepasbaar lijkt bij de groei van de persoonlijkheid van Arthur Fleck; en het is precies zijn persoon die overstegen wordt en hij dan The Joker wordt, iets wat Schiller specifiek beschrijft. De notie van het samenbrengen van twee driften die tegenover elkaar staan, waar Schiller het nadrukkelijk over heeft, wordt door Arthur Fleck ervaren, en met de film ervaart de kijker iets soortgelijks, en zelfs deze levende gestalte, die ik in deze paper als The Joker beschouw, ontsnapt niet aan de paradoxen van zijn handelingen, - het moorden en andere handelingen die in hun algemeenheid moreel failliet zijn -, wat dat betreft zou het twijfelachtig zijn of The Joker echt als een levende gestalte gezien kan worden, wellicht niet in de strenge definitie zoals Schiller die formuleert, maar wel vanuit het perspectief van Arthur Fleck; die met zijn ontwikkeling tot The Joker komt tot een vrijheid en zelfs met het zien van schoonheid in anders moreel verwerpelijke handelingen.
+
+De notie van perspectief is daarom ook een belangrijk gegeven, want, zoals de filmmaker waarschijnlijk ook als intentie heeft gehad, staat het psychologisch perspectief van Arthur Fleck centraal, maar er wordt een stap gemaakt die cruciaal is als het gaat om perspectief: Arthur Fleck voelde, in het begin van de film, niet dat hij bestond, hij werd niet gezien door anderen, maar met zijn moreel verwerpelijke handelingen - die overigens als moreel verwerpelijk worden beschouwd door de heersende orde - groeit hij uit tot een held van de burger en wordt hij een symbool van verzet, revolutie, vrijheid en autonomie, kortom hij belichaamt de onvrede van het volk. De persoon Arthur Fleck, die gedurende de film vanuit zijn subjectieve, psychologische perspectief wordt beschouwd, een perspectief waarin zijn (sociale) incompetenties, onvrede en eenzaamheid centraal staan, krijgt door zijn op het oog moreel verwerpelijke handelingen voor het eerst het gevoel van connectie met anderen, en het is deze gewaarwording die hem doet transformeren naar The Joker, waar hij zijn leven, als Arthur Fleck, zag als een tragedie, ziet hij zijn (vorige) leven nu als een komedie. Waar hij eerst nog leefde met een doel, wat hem deed lijden, heeft hij verlichting gevonden in het loslaten hiervan, en bij dit loslaten horen de psychologische (subjectieve), ethische en logische waarden die hij voorheen hooghield: met The Joker omarmt Arthur Fleck het nihilisme met een lach en derhalve verlaat The Joker zijn eerdere persona opdat hij met zijn nieuwe levende gestalte zijn bestaan, dat hij als Arthur niet kon bevestigen, nu niet alleen voor zichzelf maar ook door anderen kan verifiëren.
+
+The Joker en Filosofie
+
+Met The Ends of Men maakt Derrida, middels Heidegger, een sterke zaak voor de existentiële limiteringen van het mens-zijn die tegelijkertijd, mogelijk via onbewuste processen, kunnen leiden naar nieuwe gewaarwordingen, in deze zin kan je het groeiproces van The Joker zien als het 'einde' van Arthur Fleck waar deze zelfde einde de nieuwe gewaarwording van het zijn van The Joker is, maar voor zover ik existentialistische noties introduceer dien ik , althans dat vind ik, mee te nemen dat de film en het verhaal fictief zijn en vooralsnog is het effect van de film voelbaar, de film op zichzelf is er, maar het is niet mijn bedoeling om een metafysische verhandeling te maken over de realiteitswaarde van films want dat ligt buiten het bereik van deze paper, alsnog vind ik dat het wel genoemd dient worden.
+
+Een ander gegeven is de dans van The Joker die, ondanks Arthur Fleck duidelijk geen getrainde danser is, sterk doet denken aan de notie van the intuitive body zoals gesteld door Suzan Tunca. Precies het punt dat Arthur geen getrainde danser is maar zich toch, op cruciale momenten, op die manier uitdrukt staat voor mij symbool voor Arthur die zich ontwikkelt in het zich steeds vrijer uit te drukken en, op een psychologisch niveau, dat zijn onbewustzijn zich steeds meer uitdrukt in zijn bewuste leven: zijn dans maakt, denk ik, om die reden een sterke indruk in de film.
+
+Vanuit Jonas Staal kunnen we zien dat deze film als propaganda stuk gezien kan worden en de consequentie van de waarden die de film propageert is een weinig optimistische, iets waar Nietzsche de moderniteit voor heeft gewaarschuwd; het verval in nihilisme. Als de filosofie van The Joker strict wordt overgenomen is het moreel verval van de Westerse samenleving een feit en natuurlijkervijs, althans dat mag ik hopen, kan dat niet de bedoeling zijn. Wat is dan wel filosofisch waardevol in de boodschap van The Joker? Hoewel ik mijn antwoord niet in een exclusief filosofisch domein vindt, want het nihilisme op zichzelf is niet een zaak waar ik voor wil beargumenteren, maar komedie is een zaak waar ik dat wel voor wil: Komisch nihilisme als gegeven is een sterke tegenhanger van zogeheten absolutisme en dogma; gegevens waar bijvoorbeeld de latere Wittgenstein en Derrida fel op tegen waren, maar natuurlijk zijn wij als filosofen te eigen gerijt om onderling eenheid te vinden in onze afkeuringen en zou het te ver gaan om te stellen dat beide komisch nihilisme zouden kunnen waarderen. En ook ik vraag mij af of ik het komisch nihilisme van The Joker waardeer, maar misschien ga ik daarmee te ver, door te stellen of ik het waardeer, het is wellicht simpeler: ik vind het gewoon een mooie film.
+
+Bronnenlijst
+
+Schiller. F. (2009),"Brieven Over De Esthetische Opvoeding Van De Mens", Octavo publicaties, Amsterdam.
+Derrida. J. (1969),"The Ends Of Man", Philosophy and Phenomenological Research, Vol. 30, No. 1, pp. 31-57
+Staal. J. (2018),"Propaganda Art: From the 20th to the 21st century", Universiteit van Leiden, Leiden.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Previews on Homepage -->
+                <div class="course-grid-education" style="margin-top: 2rem;">
+                    <div class="course-card-education">
+                        <h3>Critical Thinking</h3>
+                        <p>Foundations of clear reasoning. 8 modules with exercises.</p>
+                        <button class="course-btn" onclick="document.querySelector('[data-page=\"education\"]').click()">Learn More</button>
+                    </div>
+                    <div class="course-card-education">
+                        <h3>Philosophy & Art Therapy</h3>
+                        <p>6-week live cohort. Combine philosophy with creative expression.</p>
+                        <button class="course-btn" onclick="document.querySelector('[data-page=\"education\"]').click()">Learn More</button>
+                    </div>
+                    <div class="course-card-education">
+                        <h3>Dawn of the new light: Art & AI</h3>
+                        <p>Explore AI as creative medium. Hands-on projects.</p>
+                        <button class="course-btn" onclick="document.querySelector('[data-page=\"education\"]').click()">Learn More</button>
+                    </div>
+                </div>
             </div>
         </section>
 
+        <!-- Film page -->
         <section id="film" class="page-section">
             <h2 style="font-weight:300; letter-spacing:3px;">FILM PROJECTS</h2>
             <div class="film-grid" id="filmGrid"></div>
         </section>
 
+        <!-- Music page -->
         <section id="music" class="page-section">
             <div class="music-container">
                 <div class="euler-equation">e<sup>iπ</sup> + 1 = 0</div>
@@ -1104,21 +1288,23 @@
             </div>
         </section>
 
+        <!-- Blog page - Fully Functional -->
         <section id="blog" class="page-section">
             <div class="blog-panel">
                 <h1>ESSAYS & BLOGS</h1>
                 <div id="blogListView">
                     <div class="blog-list" id="blogListContainer"></div>
-                    <button class="stay-informed-btn" id="stayInformedBtn">Stay Informed</button>
                 </div>
                 <div id="blogDisplayView" class="blog-display hidden">
                     <button class="back-button" id="backToBlogList">← Back to list</button>
                     <h2 id="blogDisplayTitle"></h2>
                     <div id="blogDisplayContent" class="blog-content"></div>
                 </div>
+                <button class="stay-informed-btn" id="stayInformedBtn">Stay Informed</button>
             </div>
         </section>
 
+        <!-- Education page - Full Courses -->
         <section id="education" class="page-section edu-stars">
             <div style="margin-bottom:2rem; background:rgba(0,0,0,0.3); backdrop-filter:blur(4px); padding:2rem;">
                 <div style="text-align:center; margin-bottom:3rem;">
@@ -1126,14 +1312,33 @@
                     <p style="color:#ccc; margin-top:0.5rem;">Transform your perspective • Join fellow seekers</p>
                 </div>
                 
-                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:2rem; margin-bottom:3rem;" id="courseContainer">
-                    <!-- Courses populated by JS -->
+                <div class="course-grid-education">
+                    <div class="course-card-education">
+                        <h3>Critical Thinking</h3>
+                        <div class="price">€67</div>
+                        <p>Foundations of clear reasoning. 8 modules with exercises, case studies, and live Q&A.</p>
+                        <button class="course-btn">Enroll Now</button>
+                    </div>
+                    <div class="course-card-education">
+                        <h3>Philosophy & Art Therapy</h3>
+                        <div class="price">€147</div>
+                        <p>6-week live cohort. Combine existential philosophy with creative expression.</p>
+                        <button class="course-btn">Join Waitlist</button>
+                    </div>
+                    <div class="course-card-education">
+                        <h3>Dawn of the new light: Art & AI</h3>
+                        <div class="price">€197</div>
+                        <p>Explore AI as creative medium. Hands-on projects with philosophical frameworks.</p>
+                        <button class="course-btn">Enroll Now</button>
+                    </div>
                 </div>
                 
                 <div style="margin-top:4rem;">
                     <h2 style="font-weight:300; color:#ffd966; text-align:center; margin-bottom:2rem; font-size:0.8rem;">SUCCESS STORIES</h2>
-                    <div class="testimonials" id="testimonialsContainer">
-                        <!-- Testimonials populated by JS -->
+                    <div class="testimonials">
+                        <div class="testimonial-card"><div class="testimonial-text">“The Critical Thinking course gave me tools I use daily.”</div><div class="testimonial-name">— Mira K.</div></div>
+                        <div class="testimonial-card"><div class="testimonial-text">“Philosophy & Art Therapy was a revelation.”</div><div class="testimonial-name">— Jonas P.</div></div>
+                        <div class="testimonial-card"><div class="testimonial-text">“Finally, a course that bridges AI and artistic depth.”</div><div class="testimonial-name">— Samira L.</div></div>
                     </div>
                 </div>
             </div>
@@ -1172,234 +1377,6 @@
     </script>
 
     <script type="module">
-        // ===== SECURITY LAYER =====
-        class SecurityManager {
-            constructor() {
-                this.loginAttempts = 0;
-                this.lockUntil = 0;
-                this.sessionTimeout = 30 * 60 * 1000; // 30 minutes default
-                this.sessionTimer = null;
-                this.auditLog = this.loadAuditLog();
-                this.init();
-            }
-
-            // Initialize security
-            init() {
-                // Check for existing session
-                const session = localStorage.getItem('secure_session');
-                if (session) {
-                    try {
-                        const decrypted = this.decrypt(session);
-                        if (decrypted && Date.now() < decrypted.expires) {
-                            sessionStorage.setItem('admin_logged_in', 'true');
-                            this.startSessionTimer();
-                        }
-                    } catch(e) {
-                        this.clearSession();
-                    }
-                }
-            }
-
-            // ===== ENCRYPTION =====
-            async getEncryptionKey(password) {
-                const encoder = new TextEncoder();
-                const keyMaterial = await crypto.subtle.importKey(
-                    'raw',
-                    encoder.encode(password),
-                    { name: 'PBKDF2' },
-                    false,
-                    ['deriveBits', 'deriveKey']
-                );
-                
-                return crypto.subtle.deriveKey(
-                    {
-                        name: 'PBKDF2',
-                        salt: encoder.encode('portfolio_salt_v1'),
-                        iterations: 100000,
-                        hash: 'SHA-256'
-                    },
-                    keyMaterial,
-                    { name: 'AES-GCM', length: 256 },
-                    false,
-                    ['encrypt', 'decrypt']
-                );
-            }
-
-            async encrypt(text, password) {
-                try {
-                    const key = await this.getEncryptionKey(password);
-                    const encoder = new TextEncoder();
-                    const iv = crypto.getRandomValues(new Uint8Array(12));
-                    const encrypted = await crypto.subtle.encrypt(
-                        { name: 'AES-GCM', iv },
-                        key,
-                        encoder.encode(text)
-                    );
-                    
-                    const encryptedArray = new Uint8Array(encrypted);
-                    const result = new Uint8Array(iv.length + encryptedArray.length);
-                    result.set(iv);
-                    result.set(encryptedArray, iv.length);
-                    
-                    return btoa(String.fromCharCode(...result));
-                } catch(e) {
-                    console.error('Encryption failed:', e);
-                    return null;
-                }
-            }
-
-            async decrypt(encryptedData, password) {
-                try {
-                    const key = await this.getEncryptionKey(password);
-                    const data = Uint8Array.from(atob(encryptedData), c => c.charCodeAt(0));
-                    const iv = data.slice(0, 12);
-                    const encrypted = data.slice(12);
-                    
-                    const decrypted = await crypto.subtle.decrypt(
-                        { name: 'AES-GCM', iv },
-                        key,
-                        encrypted
-                    );
-                    
-                    return JSON.parse(new TextDecoder().decode(decrypted));
-                } catch(e) {
-                    console.error('Decryption failed:', e);
-                    return null;
-                }
-            }
-
-            // ===== HASHING =====
-            async hashPassword(password) {
-                const encoder = new TextEncoder();
-                const data = encoder.encode(password);
-                const hash = await crypto.subtle.digest('SHA-256', data);
-                return Array.from(new Uint8Array(hash))
-                    .map(b => b.toString(16).padStart(2, '0'))
-                    .join('');
-            }
-
-            // ===== SESSION MANAGEMENT =====
-            startSessionTimer() {
-                if (this.sessionTimer) clearInterval(this.sessionTimer);
-                
-                const expires = Date.now() + this.sessionTimeout;
-                const sessionData = {
-                    expires: expires,
-                    created: Date.now()
-                };
-                
-                // Encrypt session data
-                this.getEncryptionKey('session_key').then(key => {
-                    // Store encrypted session
-                    localStorage.setItem('secure_session', JSON.stringify(sessionData));
-                });
-
-                this.sessionTimer = setInterval(() => {
-                    const remaining = Math.max(0, Math.floor((expires - Date.now()) / 1000));
-                    const minutes = Math.floor(remaining / 60);
-                    const seconds = remaining % 60;
-                    const timerEl = document.getElementById('sessionTimer');
-                    if (timerEl) {
-                        timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                    }
-                    
-                    if (remaining <= 0) {
-                        this.logout();
-                    }
-                }, 1000);
-            }
-
-            logout() {
-                clearInterval(this.sessionTimer);
-                localStorage.removeItem('secure_session');
-                sessionStorage.removeItem('admin_logged_in');
-                this.logAudit('logout', 'Session expired or user logged out');
-                location.reload();
-            }
-
-            clearSession() {
-                localStorage.removeItem('secure_session');
-                sessionStorage.removeItem('admin_logged_in');
-            }
-
-            // ===== RATE LIMITING =====
-            checkRateLimit() {
-                if (Date.now() < this.lockUntil) {
-                    const remaining = Math.ceil((this.lockUntil - Date.now()) / 60000);
-                    throw new Error(`Too many attempts. Try again in ${remaining} minutes.`);
-                }
-                return true;
-            }
-
-            recordFailedAttempt() {
-                this.loginAttempts++;
-                if (this.loginAttempts >= 5) {
-                    this.lockUntil = Date.now() + 15 * 60 * 1000; // 15 min lock
-                    this.loginAttempts = 0;
-                    this.logAudit('rate_limit', 'Account locked for 15 minutes');
-                }
-            }
-
-            resetRateLimit() {
-                this.loginAttempts = 0;
-                this.lockUntil = 0;
-                this.logAudit('rate_limit', 'Rate limit reset by admin');
-            }
-
-            // ===== AUDIT LOGGING =====
-            loadAuditLog() {
-                const log = localStorage.getItem('audit_log');
-                return log ? JSON.parse(log) : [];
-            }
-
-            saveAuditLog() {
-                localStorage.setItem('audit_log', JSON.stringify(this.auditLog.slice(-100))); // Keep last 100 entries
-            }
-
-            logAudit(action, details) {
-                const entry = {
-                    timestamp: new Date().toISOString(),
-                    action: action,
-                    details: details,
-                    userAgent: navigator.userAgent.substring(0, 100)
-                };
-                this.auditLog.push(entry);
-                this.saveAuditLog();
-            }
-
-            // ===== CONTENT SANITIZATION =====
-            sanitizeHTML(str) {
-                const div = document.createElement('div');
-                div.textContent = str;
-                return div.innerHTML;
-            }
-
-            sanitizeURL(url) {
-                try {
-                    const parsed = new URL(url);
-                    // Only allow specific domains
-                    const allowed = ['vimeo.com', 'teachable.com', 'skillshare.com', 'patreon.com'];
-                    if (allowed.some(domain => parsed.hostname.includes(domain))) {
-                        return url;
-                    }
-                    return '#';
-                } catch {
-                    return '#';
-                }
-            }
-
-            // ===== DATA ENCRYPTION FOR STORAGE =====
-            async encryptStorage(data, password) {
-                const encrypted = await this.encrypt(JSON.stringify(data), password);
-                return encrypted;
-            }
-
-            async decryptStorage(encrypted, password) {
-                const decrypted = await this.decrypt(encrypted, password);
-                return decrypted;
-            }
-        }
-
         // ===== THREE.JS EULER VISUALIZATION =====
         import * as THREE from 'three';
         import { OrbitControls } from 'https://unpkg.com/three@0.128.0/examples/jsm/controls/OrbitControls.js';
@@ -1532,295 +1509,33 @@
             });
         }
 
-        // ===== ANALYTICS ENGINE =====
-        class AnalyticsEngine {
-            constructor(security) {
-                this.security = security;
-                this.data = this.loadData();
-                this.sessionId = this.generateSessionId();
-                this.sessionStart = Date.now();
-                this.currentPage = window.location.pathname;
-                this.trackVisit();
-                this.setupTracking();
-            }
+        // ===== FUNCTIONAL SEARCH ENGINE =====
+        const searchIndex = [
+            { type: 'blog', title: 'Arendt on the individual / Velleman on the individual', id: 'arendt-velleman' },
+            { type: 'blog', title: 'De Komedie van het Nihilisme', id: 'joker' },
+            { type: 'blog', title: 'Waarom ik ga bloggen?', id: 'waarom-ik-ga-bloggen' },
+            { type: 'blog', title: 'Cancel Culture', id: 'cancel-culture' },
+            { type: 'film', title: 'Three faces', id: '498407070' },
+            { type: 'film', title: 'Lost', id: '845365245' },
+            { type: 'film', title: 'Outcome', id: '593410102' },
+            { type: 'film', title: 'Band 995', id: '337320411' },
+            { type: 'film', title: 'Mira Aki', id: '547830237' },
+            { type: 'film', title: 'Ranie Ribeiro', id: '1076319748' },
+            { type: 'course', title: 'Critical Thinking', id: 'critical' },
+            { type: 'course', title: 'Philosophy and Art Therapy', id: 'therapy' },
+            { type: 'course', title: 'Dawn of the new light: Art and AI', id: 'ai' }
+        ];
 
-            loadData() {
-                const defaultData = {
-                    visits: [],
-                    pageViews: [],
-                    affiliateClicks: [],
-                    formSubmissions: [],
-                    visitors: new Set(),
-                    dailyStats: {}
-                };
-                const stored = localStorage.getItem('analytics_data');
-                if (stored) {
-                    try {
-                        const parsed = JSON.parse(stored);
-                        parsed.visitors = new Set(parsed.visitors || []);
-                        return parsed;
-                    } catch(e) {
-                        return defaultData;
-                    }
-                }
-                return defaultData;
-            }
-
-            saveData() {
-                const dataToStore = {
-                    ...this.data,
-                    visitors: Array.from(this.data.visitors)
-                };
-                localStorage.setItem('analytics_data', JSON.stringify(dataToStore));
-            }
-
-            generateSessionId() {
-                return 'sess_' + Math.random().toString(36).substr(2, 9);
-            }
-
-            getVisitorId() {
-                let visitorId = localStorage.getItem('visitor_id');
-                if (!visitorId) {
-                    visitorId = 'vis_' + Math.random().toString(36).substr(2, 9);
-                    localStorage.setItem('visitor_id', visitorId);
-                }
-                return visitorId;
-            }
-
-            anonymizeIp() {
-                return 'anonymous';
-            }
-
-            trackVisit() {
-                const visitorId = this.getVisitorId();
-                this.data.visitors.add(visitorId);
-                
-                const visit = {
-                    id: this.sessionId,
-                    visitorId: visitorId,
-                    timestamp: Date.now(),
-                    date: new Date().toISOString().split('T')[0],
-                    entryPage: this.currentPage,
-                    referrer: document.referrer || 'direct',
-                    userAgent: navigator.userAgent,
-                    language: navigator.language,
-                    screenSize: `${window.screen.width}x${window.screen.height}`,
-                    ip: this.anonymizeIp()
-                };
-                
-                this.data.visits.push(visit);
-                this.updateDailyStats('visits', visit.date);
-                this.saveData();
-            }
-
-            trackPageView(page, title) {
-                const visitorId = this.getVisitorId();
-                const pageView = {
-                    id: 'view_' + Math.random().toString(36).substr(2, 9),
-                    visitorId: visitorId,
-                    sessionId: this.sessionId,
-                    timestamp: Date.now(),
-                    date: new Date().toISOString().split('T')[0],
-                    page: page,
-                    title: title,
-                    timeOnPage: 0,
-                    scrollDepth: 0,
-                    referrer: document.referrer || 'direct'
-                };
-                
-                this.data.pageViews.push(pageView);
-                this.updateDailyStats('pageViews', pageView.date);
-                this.updateDailyStats('page_' + page, pageView.date);
-                this.saveData();
-            }
-
-            trackAffiliateClick(link, text, commission = 0) {
-                const click = {
-                    id: 'aff_' + Math.random().toString(36).substr(2, 9),
-                    timestamp: Date.now(),
-                    date: new Date().toISOString().split('T')[0],
-                    link: link,
-                    text: text,
-                    visitorId: this.getVisitorId(),
-                    sessionId: this.sessionId,
-                    converted: false,
-                    estimatedCommission: commission,
-                    page: this.currentPage
-                };
-                
-                this.data.affiliateClicks.push(click);
-                this.updateDailyStats('affiliateClicks', click.date);
-                this.saveData();
-            }
-
-            trackFormSubmission(formName) {
-                const submission = {
-                    id: 'form_' + Math.random().toString(36).substr(2, 9),
-                    timestamp: Date.now(),
-                    date: new Date().toISOString().split('T')[0],
-                    form: formName,
-                    visitorId: this.getVisitorId()
-                };
-                
-                this.data.formSubmissions.push(submission);
-                this.updateDailyStats('formSubmissions', submission.date);
-                this.saveData();
-            }
-
-            updateDailyStats(metric, date) {
-                if (!this.data.dailyStats[date]) {
-                    this.data.dailyStats[date] = {};
-                }
-                this.data.dailyStats[date][metric] = (this.data.dailyStats[date][metric] || 0) + 1;
-            }
-
-            setupTracking() {
-                const observer = new MutationObserver(() => {
-                    const activeSection = document.querySelector('.page-section.active-section');
-                    if (activeSection) {
-                        const pageId = activeSection.id;
-                        this.trackPageView('/' + pageId, pageId.charAt(0).toUpperCase() + pageId.slice(1));
-                    }
-                });
-                
-                observer.observe(document.getElementById('mainContent'), {
-                    attributes: true,
-                    subtree: true,
-                    attributeFilter: ['class']
-                });
-
-                document.addEventListener('click', (e) => {
-                    const link = e.target.closest('a[href*="teachable"], a[href*="skillshare"], a[href*="patreon"], .affiliate-link');
-                    if (link) {
-                        this.trackAffiliateClick(link.href, link.textContent, 15);
-                    }
-                });
-
-                document.addEventListener('submit', (e) => {
-                    if (e.target.closest('.modal')) {
-                        this.trackFormSubmission('contact');
-                    }
-                });
-            }
-
-            getStats() {
-                const now = Date.now();
-                const today = new Date().toISOString().split('T')[0];
-                const lastWeek = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-                
-                const totalVisits = this.data.visits.length;
-                
-                const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
-                const uniqueVisitors = new Set(
-                    this.data.visits
-                        .filter(v => v.timestamp > thirtyDaysAgo)
-                        .map(v => v.visitorId)
-                ).size;
-                
-                const sessions = {};
-                this.data.pageViews.forEach(pv => {
-                    if (!sessions[pv.sessionId]) {
-                        sessions[pv.sessionId] = { start: pv.timestamp, end: pv.timestamp };
-                    } else {
-                        sessions[pv.sessionId].end = Math.max(sessions[pv.sessionId].end, pv.timestamp);
-                    }
-                });
-                
-                const avgSession = Object.values(sessions).reduce((acc, s) => {
-                    return acc + (s.end - s.start);
-                }, 0) / (Object.keys(sessions).length || 1) / 1000;
-                
-                const pagesPerSession = this.data.pageViews.length / (Object.keys(sessions).length || 1);
-                
-                const pageCounts = {};
-                this.data.pageViews.forEach(pv => {
-                    pageCounts[pv.page] = (pageCounts[pv.page] || 0) + 1;
-                });
-                
-                const topPages = Object.entries(pageCounts)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 5);
-                
-                const sources = {};
-                this.data.visits.forEach(v => {
-                    const source = v.referrer.includes('google') ? 'Google' :
-                                   v.referrer.includes('facebook') ? 'Facebook' :
-                                   v.referrer.includes('twitter') ? 'Twitter' :
-                                   v.referrer.includes('instagram') ? 'Instagram' :
-                                   v.referrer ? 'Other' : 'Direct';
-                    sources[source] = (sources[source] || 0) + 1;
-                });
-                
-                const affiliateStats = {};
-                this.data.affiliateClicks.forEach(c => {
-                    const domain = c.link.includes('teachable') ? 'Teachable' :
-                                   c.link.includes('skillshare') ? 'Skillshare' :
-                                   c.link.includes('patreon') ? 'Patreon' : 'Other';
-                    if (!affiliateStats[domain]) {
-                        affiliateStats[domain] = { clicks: 0, conversions: 0, earnings: 0 };
-                    }
-                    affiliateStats[domain].clicks++;
-                    if (c.converted) {
-                        affiliateStats[domain].conversions++;
-                        affiliateStats[domain].earnings += c.estimatedCommission || 10;
-                    }
-                });
-                
-                const recent = [...this.data.pageViews]
-                    .sort((a, b) => b.timestamp - a.timestamp)
-                    .slice(0, 10)
-                    .map(pv => ({
-                        time: new Date(pv.timestamp).toLocaleTimeString(),
-                        page: pv.page,
-                        source: pv.referrer || 'direct'
-                    }));
-                
-                return {
-                    totalVisits,
-                    uniqueVisitors,
-                    avgSession: this.formatTime(avgSession),
-                    pagesPerSession: pagesPerSession.toFixed(1),
-                    topPages,
-                    sources,
-                    affiliateStats,
-                    recent
-                };
-            }
-
-            formatTime(seconds) {
-                const mins = Math.floor(seconds / 60);
-                const secs = Math.floor(seconds % 60);
-                return `${mins}:${secs.toString().padStart(2, '0')}`;
-            }
-
-            exportData() {
-                const dataStr = JSON.stringify(this.data, null, 2);
-                const blob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `analytics-export-${new Date().toISOString().split('T')[0]}.json`;
-                a.click();
-            }
-
-            resetData() {
-                if (confirm('Are you sure? This will delete all analytics data.')) {
-                    localStorage.removeItem('analytics_data');
-                    this.data = this.loadData();
-                    alert('Analytics data reset.');
-                }
-            }
+        function performSearch(query) {
+            if (!query || query.length < 2) return [];
+            query = query.toLowerCase();
+            return searchIndex.filter(item => 
+                item.title.toLowerCase().includes(query)
+            ).slice(0, 8);
         }
 
         // ===== MAIN APPLICATION =====
-        (async function() {
-            // Initialize Security
-            const security = new SecurityManager();
-            window.security = security;
-
-            // Initialize Analytics (pass security)
-            window.analytics = new AnalyticsEngine(security);
-
+        (function() {
             // Auto-hide nav & footer
             const navWrapper = document.getElementById('navWrapper');
             const footerWrapper = document.getElementById('footerWrapper');
@@ -1850,6 +1565,19 @@
             const floatingTriangle = document.getElementById('floatingTriangle');
             const logoContainer = document.getElementById('interactiveLogo');
 
+            // Scroll detection for logo fade on homepage
+            window.addEventListener('scroll', () => {
+                if (sections.home.classList.contains('active-section')) {
+                    const scrollY = window.scrollY;
+                    const threshold = window.innerHeight * 1.5;
+                    if (scrollY > threshold) {
+                        logoContainer.classList.add('home-blogs-visible');
+                    } else {
+                        logoContainer.classList.remove('home-blogs-visible');
+                    }
+                }
+            });
+
             let starsDiv = document.querySelector('.stars-overlay');
             if (!starsDiv) {
                 starsDiv = document.createElement('div');
@@ -1868,6 +1596,7 @@
                     bodyEl.classList.add('home-active');
                     floatingTriangle.style.opacity = '1';
                     logoContainer.style.opacity = '1';
+                    logoContainer.classList.remove('home-blogs-visible');
                 } else {
                     bodyEl.classList.remove('home-active');
                     floatingTriangle.style.opacity = '0.25';
@@ -1891,13 +1620,50 @@
                 });
             });
 
-            document.getElementById('starSearch').addEventListener('click', (e) => {
-                e.preventDefault();
-                alert('🔍 search placeholder');
+            // ===== SEARCH =====
+            const searchInput = document.getElementById('globalSearch');
+            const searchResults = document.getElementById('searchResults');
+
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value;
+                const results = performSearch(query);
+                
+                if (results.length > 0) {
+                    searchResults.innerHTML = '';
+                    results.forEach(result => {
+                        const div = document.createElement('div');
+                        div.className = 'search-result-item';
+                        div.innerHTML = `${result.title} <span class="type">${result.type}</span>`;
+                        div.addEventListener('click', () => {
+                            if (result.type === 'page') {
+                                setActivePage(result.id);
+                            } else if (result.type === 'blog') {
+                                setActivePage('blog');
+                                // Would load specific blog in a full implementation
+                            } else if (result.type === 'film') {
+                                setActivePage('film');
+                            } else if (result.type === 'course') {
+                                setActivePage('education');
+                            }
+                            searchResults.classList.remove('active');
+                            searchInput.value = '';
+                        });
+                        searchResults.appendChild(div);
+                    });
+                    searchResults.classList.add('active');
+                } else {
+                    searchResults.classList.remove('active');
+                }
             });
 
-            // Data Management
-            const defaultFilms = [
+            document.addEventListener('click', (e) => {
+                if (!searchInput.contains(e.target)) {
+                    searchResults.classList.remove('active');
+                }
+            });
+
+            // Film grid
+            const films = [
                 { title: 'Three faces', id: '498407070', thumbnail: 'https://i.vimeocdn.com/video/1035891230?mw=300&mh=169' },
                 { title: 'Lost', id: '845365245', thumbnail: 'https://i.vimeocdn.com/video/174363939?mw=300&mh=169' },
                 { title: 'Outcome', id: '593410102', thumbnail: 'https://i.vimeocdn.com/video/1015234567?mw=300&mh=169' },
@@ -1906,64 +1672,14 @@
                 { title: 'Ranie Ribeiro', id: '1076319748', thumbnail: 'https://i.vimeocdn.com/video/1902871310?mw=300&mh=169' }
             ];
 
-            const defaultBlogs = {
-                'waarom-ik-ga-bloggen': {
-                    title: 'Waarom ik ga bloggen?',
-                    content: 'Waarom ik ga bloggen?\n\nDat ik ga schrijven had ik allang besloten...'
-                },
-                'cancel-culture': {
-                    title: 'Cancel Culture',
-                    content: 'Cancel Culture\n\nOprah keek verontwaardigd...'
-                },
-                'arendt-velleman': {
-                    title: 'Arendt on the individual / Velleman on the individual',
-                    content: 'Arendt on the individual\n\n...the moment men willed freedom...'
-                },
-                'joker': {
-                    title: 'De Komedie van het Nihilisme',
-                    content: 'De Komedie Van Het Nihilisme...'
-                }
-            };
-
-            const defaultCourses = [
-                { title: 'Critical Thinking', price: 67, featured: true },
-                { title: 'Philosophy & Art Therapy', price: 147, featured: true },
-                { title: 'Dawn of the new light: Art & AI', price: 197, featured: true }
-            ];
-
-            const defaultTestimonials = [
-                { text: '“The Critical Thinking course gave me tools I use daily. Worth every euro.”', name: 'Mira K., Amsterdam' },
-                { text: '“Philosophy & Art Therapy was a revelation. The live sessions were transformative.”', name: 'Jonas P., Berlin' },
-                { text: '“Finally, a course that bridges AI and artistic depth. The community is incredible.”', name: 'Samira L., remote' }
-            ];
-
-            let films = JSON.parse(localStorage.getItem('portfolio_films')) || defaultFilms;
-            let blogs = JSON.parse(localStorage.getItem('portfolio_blogs')) || defaultBlogs;
-            let courses = JSON.parse(localStorage.getItem('portfolio_courses')) || defaultCourses;
-            let testimonials = JSON.parse(localStorage.getItem('portfolio_testimonials')) || defaultTestimonials;
-
-            function saveFilms() {
-                localStorage.setItem('portfolio_films', JSON.stringify(films));
-                renderFilmGrid();
-            }
-
-            function saveBlogs() {
-                localStorage.setItem('portfolio_blogs', JSON.stringify(blogs));
-                renderBlogList();
-            }
-
-            function saveCourses() {
-                localStorage.setItem('portfolio_courses', JSON.stringify(courses));
-                renderCourses();
-            }
-
             function renderFilmGrid() {
                 const filmGrid = document.getElementById('filmGrid');
+                if (!filmGrid) return;
                 filmGrid.innerHTML = '';
                 films.forEach(f => {
                     const card = document.createElement('div');
                     card.className = 'film-card';
-                    card.innerHTML = `<div class="film-title">${security.sanitizeHTML(f.title)}</div><div class="video-wrapper"><div class="video-thumb" style="background-image:url(${security.sanitizeURL(f.thumbnail)})">▶</div></div>`;
+                    card.innerHTML = `<div class="film-title">${f.title}</div><div class="video-wrapper"><div class="video-thumb" style="background-image:url(${f.thumbnail})">▶</div></div>`;
                     const thumb = card.querySelector('.video-thumb');
                     thumb.addEventListener('click', () => {
                         const wrapper = thumb.parentElement;
@@ -1977,16 +1693,37 @@
                 });
             }
 
+            // Blog data
+            const blogs = {
+                'waarom-ik-ga-bloggen': { 
+                    title: 'Waarom ik ga bloggen?', 
+                    content: 'Waarom ik ga bloggen?\n\nDat ik ga schrijven had ik allang besloten. Wanneer ik het zou doen? Dat wist ik nog niet. Ben ik competent genoeg? Die vraag had ik beantwoord toen ik in 2020 mijn diploma Filosofie had gehaald maar daarmee is het nog niet gedaan. Dan heb ik nog niet een impact kunnen maken. De impact die 14 jaar geleden zo duidelijk voor ogen kwam en ik toen zeker nog niet wist dat ik überhaupt kon schrijven.\n\nWe zaten in onze ‘man cave’ bij Kevin thuis. Plastic stoelen, sigaretten, jointjes en asbakken in een eengezinshuis in Almere. Waar we met z’n drieën de nodige gesprekken voerden over onze toekomst. M’n tweemans vertelde over zijn nieuwe avontuur in online marketing. Dat hij nieuwe inzichten kreeg door de lessen die hij volgde. Hoe bijvoorbeeld bloggen een veel lucratievere business is dan hij gedacht had. Ik luisterde aandachtig. Begrijp me goed, ik begin hier niet aan voor het geld, maar als je er geld mee kan verdienen is dat zeker mooi meegenomen.\n\nWerkzaam zijn in de cultuur sector is namelijk geen vetpot. Als acteur, muzikant en schrijver is het knap als je je hoofd boven water weet te houden zonder een bijbaan en dan heb ik het nog niet eens over de coronocrisis en de impact daarvan op de culturele sector.\n\nNou, dacht ik, dan ga ik even googlen wat bloggers dan precies doen. Dan begint het natuurlijk met alle mogelijkheden en dingen om aan te denken. Hoe wordt je een succesvolle blogger? Hoe wordt je als blogger een influencer? Welke thema’s gebruik je als blogger? Je begrijpt wel dat m’n hoofd aardig vol raakte maar goed, je moet er wat voor over hebben. En dan natuurlijk de vraag: Kan ik überhaupt schrijven? Ben ik competent genoeg?\n\n- Diploma met duidelijkste competentie in schrijven - check\n- Je eigen gedachten kunnen uitdrukken in woord in schrift - check\n- Onafhankelijke en eigenzinnige gedachtengang - dat heb je als lezer waarschijnlijk nu nog niet door, maar vertrouw me, check\n\nOk, ik kan dit. Volgens mij zijn er veel bloggers die zich als expert positioneren maar hoogstens ervaringsdeskundige zijn geworden na jaren bloggen. Vreemde cirkel, maar goed, je moet ergens beginnen natuurlijk. En als het ergens begint is het met: “He, ik wil en ik kan dit”. Al die jaren in de collegebanken kunnen dan nog nuttig worden, voor u als lezer en voor mij als auteur.\n\nU bent gekomen op de site rockstar philosopher en kijk is aan die dude is nog echt een filosoof ook. Als een filosoof zijn niet al vreemd genoeg is, ben ik werkzaam als acteur en muzikant, een wellicht vreemde combinatie in ons kikkerlandje. Ik hoop met mijn blogs unieke inzichten te kunnen geven over actuele topics, onze culturele sector, lifestyle en soms zal ik schaamteloos mijn eigen werken promoten.'
+                },
+                'cancel-culture': { 
+                    title: 'Cancel Culture', 
+                    content: 'Cancel Culture\n\nOprah keek verontwaardigd toen Meghan Markle haar verhaal deed over Archie: "The colour is his skin?". Archie heeft een donkere moeder en oma. Als de witte institutie van het koningshuis van Engeland Archie niet accepteert doen wij dat als maatschappij zeker wel. Als de prins zou opgroeien en zijn roots met Afrika zou onderzoeken zouden we dat als donkere mensen applaudisseren en waarschijnlijk zelfs met trots. Hoe wit of donker zijn huid ook zou zijn, toch?\n\nInstagram. Ik vind het een onnodig medium maar het werkt omdat de macht van de meerderheid zich zo makkelijk laat gelden. Het is vast complexer dan dat. De cancel culture maakt daar momenteel het slimst gebruik van - voor sommige zaken terecht en voor andere duidelijk het tegenovergestelde. Neem nou de situatie van artiest Anne-Fay; ze postte een teaser waarin de zin “my thighs are the size of Africa” veel ophef veroorzaakte op het eerder genoemde platform. Een ‘witte’ vrouw doet een claim naar het Afrikaans erfgoed! Maar dit kan en mág vooral niet in de huidige sociale revolutie. Reacties van verbitterde afro-centristen maakten een furore - het werk waar een artiest al jaren keihard en integer voor werkt dreigde gecanceld te worden.\n\nDe reacties werden ondersteund door meerdere sympathisanten maar een tegengeluid ontbrak en het gaat hier niet om simpelweg maar een tegengeluid geven, maar een perspectief die de stand van zaken helder vertegenwoordigt. Ik kon het niet laten. Nadat ik een reactie had geplaatst die, en dat geef ik graag toe, eerder retorisch dan inhoudelijk was, stond ik in no-time in m’n eentje tegenover ruwweg twintig, waar ik vermoed, afro-centristen. Nadat ik kenbaar maakte zelf een broeder te zijn werd de insinuatie helder: “Mannen als jij zijn het probleem van onze cultuur”. Het perspectief van mijn opponenten werd duidelijk: de reinste onzin.\n\nTijdens mijn studie Filosofie aan de UvA was ik met weinig uitzonderingen de enige donkere in de klas. Iets wat beaamd werd in het opiniestuk van Mitchell Esajas voor Joop/Bnn. Waar ik te maken had met stijve en rigide eurocentrische vooroordelen, perspectieven die niet alleen structureel maar ook inhoudelijk niet konden ontsnappen aan de universaliteits claim van het academische curriculum en Westerse theorieën in het algemeen. Dat, als je dit als lezer goed begrijpt, aan de basis ligt van wat wij nu kennen als white supremacy.\n\nIn de werkgroep van het vak politieke filosofie, wederom als enige donkere in de klas, werd gevraagd naar mijn kijk op de situatie van het ZP-debat, mompelde ik onverstaanbare woorden die ik zelf niet meer herinner. Het maakte dus weinig indruk. Ik voelde me opgelaten om als enige donkere de witte meerderheid in de klas uit te leggen wat er allemaal mis was met ZP. Iets waar ik de witte docente, die een duidelijke anti positie aannam, vermoedelijk mee had teleurgesteld.\n\nHet was pas in mijn laatste studiejaar dat ik de competentie van het helder formuleren van je gedachte in spraak en schrift vanuit een zelfstandig perspectief (in een publiek ruimte) begreep en, gelukkig, ook heb gepraktiseerd - het vraagt lef om als enige donkere in de klas met alleen witte mensen het curriculum te bekritiseren als te eurocentrisch. Het eurocentrisme dat zo stijf en diep in de europese culturen zit. Ik was toch verbaasd toen wij de volgende les een documentaire kregen te zien over Stuart Hall, een donkere Britse intellectueel met een trackrecord waar je u tegen zegt. Het was de eerste keer dat ik mij gehoord heb gevoeld in een omgeving waar ik dacht dat er de ruimte niet voor was. Een stap die ik tot de dag van vandaag prijs als mijlpaal. Ik prijs niet alleen lef hebben en het vermogen je uit te spreken, maar eveneens de omgeving die luistert en antwoord want de twee gaan samen.\n\nWe gaan weer terug naar de cancel poging op Instagram. Waar ik nu weer tegenover een meerderheid sta, alleen zijn het dit keer ‘mijn’ mensen. Waar ik een artiest verdedig die simpelweg onderzoek doet naar haar ‘eigen’ roots. Ze zit is ‘wit’ met een donkere moeder en opa. De afro-centristen hebben zich laten betuttelen door hun eigen racistische perspectief. ‘Zij’ mag ‘ons’ verhaal niet vertellen, want ze is wit. Nee witte instanties, ik duld geen racisme noch cultureel eenzijdige universaliteits claims. Nee zwart Nederland, ik duld geen racisme onder de verbloeming van cultural appropriation of cancel culture. Racisme in elke vorm, van wie dan ook, verban ik naar het domein van onbruikbare nonsense. Maar ja, dat ben ik.'
+                },
+                'arendt-velleman': { 
+                    title: 'Arendt on the individual / Velleman on the individual', 
+                    content: document.getElementById('home-blog-arendt')?.querySelector('.blog-content')?.textContent || 'Full content available on homepage'
+                },
+                'joker': { 
+                    title: 'De Komedie van het Nihilisme', 
+                    content: document.getElementById('home-blog-joker')?.querySelector('.blog-content')?.textContent || 'Full content available on homepage'
+                }
+            };
+
             function renderBlogList() {
                 const container = document.getElementById('blogListContainer');
+                if (!container) return;
                 container.innerHTML = '';
                 Object.keys(blogs).forEach(key => {
                     const item = document.createElement('div');
                     item.className = 'blog-list-item';
                     item.setAttribute('data-blog', key);
-                    item.textContent = security.sanitizeHTML(blogs[key].title);
+                    item.textContent = blogs[key].title;
                     item.addEventListener('click', () => {
-                        document.getElementById('blogDisplayTitle').textContent = security.sanitizeHTML(blogs[key].title);
+                        document.getElementById('blogDisplayTitle').textContent = blogs[key].title;
                         document.getElementById('blogDisplayContent').textContent = blogs[key].content;
                         document.getElementById('blogListView').classList.add('hidden');
                         document.getElementById('blogDisplayView').classList.remove('hidden');
@@ -1995,454 +1732,40 @@
                 });
             }
 
-            function renderCourses() {
-                const container = document.getElementById('courseContainer');
-                container.innerHTML = '';
-                courses.forEach((course, index) => {
-                    const card = document.createElement('div');
-                    card.style.background = 'rgba(20,20,20,0.8)';
-                    card.style.border = '0.5px solid rgba(255,215,0,0.3)';
-                    card.style.padding = '1.5rem';
-                    card.style.position = 'relative';
-                    
-                    if (index === 1) {
-                        const badge = document.createElement('div');
-                        badge.style.position = 'absolute';
-                        badge.style.top = '-8px';
-                        badge.style.right = '10px';
-                        badge.style.background = '#ffd966';
-                        badge.style.color = 'black';
-                        badge.style.padding = '0.2rem 0.8rem';
-                        badge.style.fontSize = '0.55rem';
-                        badge.style.letterSpacing = '1px';
-                        badge.textContent = 'POPULAR';
-                        card.appendChild(badge);
-                    }
-                    
-                    card.innerHTML += `
-                        <div style="color:#ffd966; font-size:0.7rem; margin-bottom:0.5rem;">${index === 0 ? 'FOUNDATIONS' : index === 1 ? 'INTERMEDIATE' : 'ADVANCED'}</div>
-                        <h3 style="color:white; font-size:0.9rem; font-weight:400; margin-bottom:1rem;">${security.sanitizeHTML(course.title)}</h3>
-                        <p style="color:#aaa; font-size:0.65rem; line-height:1.6; margin-bottom:1.5rem;">Comprehensive course with video modules and exercises.</p>
-                        <div style="display:flex; align-items:baseline; gap:0.5rem; margin-bottom:1rem;">
-                            <span style="color:#ffd966; font-size:1.2rem;">€${course.price}</span>
-                        </div>
-                        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-                            <button class="contact-btn affiliate-link" style="flex:1;" data-affiliate="teachable">Enroll Now</button>
-                            <button class="contact-btn" style="flex:1; background:transparent;" onclick="alert('Free preview')">Preview</button>
-                        </div>
-                    `;
-                    container.appendChild(card);
-                });
-
-                document.querySelectorAll('.affiliate-link').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        window.analytics.trackAffiliateClick('https://teachable.com/course', btn.textContent, 15);
-                        alert('Redirect to partner platform (simulated)');
-                    });
-                });
-            }
-
-            // Render testimonials
-            const testimonialsContainer = document.getElementById('testimonialsContainer');
-            testimonialsContainer.innerHTML = '';
-            testimonials.forEach(t => {
-                const card = document.createElement('div');
-                card.className = 'testimonial-card';
-                card.innerHTML = `
-                    <div class="testimonial-text">${security.sanitizeHTML(t.text)}</div>
-                    <div class="testimonial-name">${security.sanitizeHTML(t.name)}</div>
-                `;
-                testimonialsContainer.appendChild(card);
-            });
-
-            document.getElementById('backToBlogList').addEventListener('click', () => {
+            document.getElementById('backToBlogList')?.addEventListener('click', () => {
                 document.getElementById('blogDisplayView').classList.add('hidden');
                 document.getElementById('blogListView').classList.remove('hidden');
             });
 
-            document.getElementById('stayInformedBtn').addEventListener('click', () => {
-                window.analytics.trackFormSubmission('stayInformed');
-                alert('Stay informed — demo.');
-            });
+            document.getElementById('stayInformedBtn')?.addEventListener('click', () => alert('Stay informed — demo.'));
 
             // Modal
             const modal = document.getElementById('contactModal');
             const openBtn = document.getElementById('openContactModal');
             const closeBtn = document.getElementById('closeModalBtn');
-            openBtn.addEventListener('click', () => modal.classList.add('active-modal'));
-            closeBtn.addEventListener('click', () => modal.classList.remove('active-modal'));
+            openBtn?.addEventListener('click', () => modal.classList.add('active-modal'));
+            closeBtn?.addEventListener('click', () => modal.classList.remove('active-modal'));
             window.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('active-modal'); });
 
-            document.getElementById('sendContact').addEventListener('click', () => {
-                window.analytics.trackFormSubmission('contact');
-                modal.classList.remove('active-modal');
-                alert('Message sent (demo)');
-            });
-
-            document.getElementById('footerBlog').addEventListener('click', (e) => { e.preventDefault(); setActivePage('blog'); });
-            document.getElementById('footerFaq').addEventListener('click', (e) => { e.preventDefault(); alert('FAQ placeholder.'); });
-            document.getElementById('footerPrivacy').addEventListener('click', (e) => { e.preventDefault(); alert('Privacy policy placeholder.'); });
-            document.getElementById('globalSearch').addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') alert('Search: ' + e.target.value);
-            });
+            document.getElementById('footerBlog')?.addEventListener('click', (e) => { e.preventDefault(); setActivePage('blog'); });
+            document.getElementById('footerFaq')?.addEventListener('click', (e) => { e.preventDefault(); alert('FAQ placeholder.'); });
+            document.getElementById('footerPrivacy')?.addEventListener('click', (e) => { e.preventDefault(); alert('Privacy policy placeholder.'); });
 
             // Logo movement
             const logo = document.getElementById('interactiveLogo');
-            logo.addEventListener('mousemove', (e) => {
+            logo?.addEventListener('mousemove', (e) => {
                 const rect = logo.getBoundingClientRect();
                 const x = e.clientX - rect.left - rect.width/2;
                 const y = e.clientY - rect.top - rect.height/2;
                 logo.style.transform = `translate(calc(-50% + ${x*0.15}px), calc(-50% + ${y*0.15}px))`;
             });
-            logo.addEventListener('mouseleave', () => {
+            logo?.addEventListener('mouseleave', () => {
                 logo.style.transform = 'translate(-50%, -50%)';
-            });
-
-            // ===== ADMIN PANEL =====
-            const adminPanel = document.getElementById('adminPanel');
-            const adminLoginBtn = document.getElementById('adminLoginBtn');
-            const adminClose = document.getElementById('adminClose');
-            const adminAuthSection = document.getElementById('adminAuthSection');
-            const adminDashboard = document.getElementById('adminDashboard');
-            const adminAnalyticsSection = document.getElementById('adminAnalyticsSection');
-            const adminBlogSection = document.getElementById('adminBlogSection');
-            const adminFilmSection = document.getElementById('adminFilmSection');
-            const adminMusicSection = document.getElementById('adminMusicSection');
-            const adminCourseSection = document.getElementById('adminCourseSection');
-            const adminSecuritySection = document.getElementById('adminSecuritySection');
-            const adminUsername = document.getElementById('adminUsername');
-            const adminPassword = document.getElementById('adminPassword');
-            const adminCreateBtn = document.getElementById('adminCreateBtn');
-            const adminLoginBtn2 = document.getElementById('adminLoginBtn2');
-            const adminStatus = document.getElementById('adminStatus');
-            const adminLogout = document.getElementById('adminLogout');
-
-            // Navigation
-            document.getElementById('showAnalytics').addEventListener('click', () => {
-                adminDashboard.style.display = 'none';
-                adminAnalyticsSection.style.display = 'block';
-                updateAnalyticsDashboard();
-            });
-            
-            document.getElementById('showBlogManager').addEventListener('click', () => {
-                adminDashboard.style.display = 'none';
-                adminBlogSection.style.display = 'block';
-                renderAdminBlogList();
-            });
-            
-            document.getElementById('showFilmManager').addEventListener('click', () => {
-                adminDashboard.style.display = 'none';
-                adminFilmSection.style.display = 'block';
-                renderAdminFilmList();
-            });
-            
-            document.getElementById('showMusicManager').addEventListener('click', () => {
-                adminDashboard.style.display = 'none';
-                adminMusicSection.style.display = 'block';
-                loadMusicSettings();
-            });
-            
-            document.getElementById('showCourseManager').addEventListener('click', () => {
-                adminDashboard.style.display = 'none';
-                adminCourseSection.style.display = 'block';
-                document.getElementById('course1Price').value = courses[0].price;
-                document.getElementById('course2Price').value = courses[1].price;
-                document.getElementById('course3Price').value = courses[2].price;
-            });
-
-            document.getElementById('showSecurityManager').addEventListener('click', () => {
-                adminDashboard.style.display = 'none';
-                adminSecuritySection.style.display = 'block';
-                renderAuditLog();
-            });
-
-            // Back buttons
-            document.getElementById('backFromAnalytics').addEventListener('click', () => {
-                adminAnalyticsSection.style.display = 'none';
-                adminDashboard.style.display = 'block';
-            });
-            document.getElementById('backFromBlogs').addEventListener('click', () => {
-                adminBlogSection.style.display = 'none';
-                adminDashboard.style.display = 'block';
-            });
-            document.getElementById('backFromFilms').addEventListener('click', () => {
-                adminFilmSection.style.display = 'none';
-                adminDashboard.style.display = 'block';
-            });
-            document.getElementById('backFromMusic').addEventListener('click', () => {
-                adminMusicSection.style.display = 'none';
-                adminDashboard.style.display = 'block';
-            });
-            document.getElementById('backFromCourses').addEventListener('click', () => {
-                adminCourseSection.style.display = 'none';
-                adminDashboard.style.display = 'block';
-            });
-            document.getElementById('backFromSecurity').addEventListener('click', () => {
-                adminSecuritySection.style.display = 'none';
-                adminDashboard.style.display = 'block';
-            });
-
-            // Analytics functions
-            function updateAnalyticsDashboard() {
-                const stats = window.analytics.getStats();
-                
-                document.getElementById('statTotalVisits').textContent = stats.totalVisits;
-                document.getElementById('statUniqueVisitors').textContent = stats.uniqueVisitors;
-                document.getElementById('statAvgSession').textContent = stats.avgSession;
-                document.getElementById('statPagesPerSession').textContent = stats.pagesPerSession;
-                
-                const topPagesContainer = document.getElementById('topPagesContainer');
-                topPagesContainer.innerHTML = '';
-                stats.topPages.forEach(([page, count]) => {
-                    const max = stats.topPages[0][1];
-                    const percent = (count / max) * 100;
-                    topPagesContainer.innerHTML += `
-                        <div class="chart-bar-container">
-                            <span class="chart-bar-label">${page}</span>
-                            <div class="chart-bar">
-                                <div class="chart-bar-fill" style="width:${percent}%"></div>
-                            </div>
-                            <span class="chart-bar-value">${count}</span>
-                        </div>
-                    `;
-                });
-
-                const sourcesContainer = document.getElementById('trafficSourcesContainer');
-                sourcesContainer.innerHTML = '';
-                const totalSources = Object.values(stats.sources).reduce((a, b) => a + b, 0);
-                Object.entries(stats.sources).forEach(([source, count]) => {
-                    const percent = (count / totalSources) * 100;
-                    sourcesContainer.innerHTML += `
-                        <div class="chart-bar-container">
-                            <span class="chart-bar-label">${source}</span>
-                            <div class="chart-bar">
-                                <div class="chart-bar-fill" style="width:${percent}%"></div>
-                            </div>
-                            <span class="chart-bar-value">${count}</span>
-                        </div>
-                    `;
-                });
-
-                const affiliateBody = document.getElementById('affiliateTableBody');
-                affiliateBody.innerHTML = '';
-                Object.entries(stats.affiliateStats).forEach(([domain, data]) => {
-                    const convRate = data.clicks ? ((data.conversions / data.clicks) * 100).toFixed(1) : 0;
-                    affiliateBody.innerHTML += `
-                        <tr>
-                            <td>${domain}</td>
-                            <td>${data.clicks}</td>
-                            <td>${convRate}%</td>
-                            <td>€${data.earnings.toFixed(2)}</td>
-                        </tr>
-                    `;
-                });
-            }
-
-            function renderAuditLog() {
-                const container = document.getElementById('auditLogContainer');
-                container.innerHTML = '';
-                security.auditLog.slice(-10).reverse().forEach(entry => {
-                    container.innerHTML += `
-                        <div style="padding:0.3rem; border-bottom:0.5px solid #333; font-size:0.55rem;">
-                            <span style="color:#666;">${new Date(entry.timestamp).toLocaleString()}</span> - ${entry.action}: ${entry.details}
-                        </div>
-                    `;
-                });
-            }
-
-            function renderAdminBlogList() {
-                const listDiv = document.getElementById('adminBlogList');
-                listDiv.innerHTML = '<h3 style="color:#666;">Current Blogs</h3>';
-                Object.keys(blogs).forEach(key => {
-                    const item = document.createElement('div');
-                    item.className = 'admin-list-item';
-                    item.innerHTML = `<span>${blogs[key].title}</span><button class="admin-btn" data-key="${key}">Delete</button>`;
-                    item.querySelector('button').addEventListener('click', () => {
-                        delete blogs[key];
-                        saveBlogs();
-                        renderAdminBlogList();
-                    });
-                    listDiv.appendChild(item);
-                });
-            }
-
-            function renderAdminFilmList() {
-                const listDiv = document.getElementById('adminFilmList');
-                listDiv.innerHTML = '<h3 style="color:#666;">Current Films</h3>';
-                films.forEach((film, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'admin-list-item';
-                    item.innerHTML = `<span>${film.title}</span><button class="admin-btn" data-index="${index}">Delete</button>`;
-                    item.querySelector('button').addEventListener('click', () => {
-                        films.splice(index, 1);
-                        saveFilms();
-                        renderAdminFilmList();
-                    });
-                    listDiv.appendChild(item);
-                });
-            }
-
-            document.getElementById('saveNewBlog').addEventListener('click', () => {
-                const title = document.getElementById('newBlogTitle').value.trim();
-                const content = document.getElementById('newBlogContent').value.trim();
-                if (!title || !content) {
-                    adminStatus.textContent = 'Title and content required';
-                    return;
-                }
-                const id = 'blog-' + Date.now();
-                blogs[id] = { title, content };
-                saveBlogs();
-                renderAdminBlogList();
-                document.getElementById('newBlogTitle').value = '';
-                document.getElementById('newBlogContent').value = '';
-                adminStatus.textContent = 'Blog saved';
-            });
-
-            document.getElementById('saveNewFilm').addEventListener('click', () => {
-                const title = document.getElementById('newFilmTitle').value.trim();
-                const url = document.getElementById('newFilmUrl').value.trim();
-                if (!title || !url) {
-                    adminStatus.textContent = 'Title and URL required';
-                    return;
-                }
-                const match = url.match(/(?:vimeo\.com\/|video\/)(\d+)/);
-                if (!match) {
-                    adminStatus.textContent = 'Invalid Vimeo URL';
-                    return;
-                }
-                const id = match[1];
-                const thumbnail = `https://i.vimeocdn.com/video/${id}?mw=300&mh=169`;
-                
-                films.push({ title, id, thumbnail });
-                saveFilms();
-                renderAdminFilmList();
-                document.getElementById('newFilmTitle').value = '';
-                document.getElementById('newFilmUrl').value = '';
-                adminStatus.textContent = 'Film added';
-            });
-
-            function loadMusicSettings() {
-                const settings = JSON.parse(localStorage.getItem('music_settings') || '{"rotationSpeed":0.8}');
-                document.getElementById('musicRotationSpeed').value = settings.rotationSpeed || 0.8;
-            }
-
-            document.getElementById('saveMusicSettings').addEventListener('click', () => {
-                const settings = {
-                    rotationSpeed: parseFloat(document.getElementById('musicRotationSpeed').value)
-                };
-                localStorage.setItem('music_settings', JSON.stringify(settings));
-                adminStatus.textContent = 'Music settings saved (refresh to see changes)';
-            });
-
-            document.getElementById('saveCourseSettings').addEventListener('click', () => {
-                courses[0].price = parseInt(document.getElementById('course1Price').value);
-                courses[1].price = parseInt(document.getElementById('course2Price').value);
-                courses[2].price = parseInt(document.getElementById('course3Price').value);
-                saveCourses();
-                renderCourses();
-                adminStatus.textContent = 'Course prices updated';
-            });
-
-            document.getElementById('saveSessionTimeout').addEventListener('click', () => {
-                const minutes = parseInt(document.getElementById('sessionTimeout').value);
-                security.sessionTimeout = minutes * 60 * 1000;
-                adminStatus.textContent = 'Session timeout updated';
-            });
-
-            document.getElementById('resetLoginLock').addEventListener('click', () => {
-                security.resetRateLimit();
-                adminStatus.textContent = 'Login lock reset';
-            });
-
-            document.getElementById('rotateEncryptionKey').addEventListener('click', () => {
-                adminStatus.textContent = 'Encryption key rotation simulated';
-            });
-
-            document.getElementById('exportSecurityLog').addEventListener('click', () => {
-                const dataStr = JSON.stringify(security.auditLog, null, 2);
-                const blob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `security-log-${new Date().toISOString().split('T')[0]}.json`;
-                a.click();
-            });
-
-            // Admin auth
-            let adminExists = localStorage.getItem('admin_created') === 'true';
-
-            adminLoginBtn.addEventListener('click', () => {
-                adminPanel.classList.add('active');
-                updateAdminUI();
-            });
-
-            adminClose.addEventListener('click', () => {
-                adminPanel.classList.remove('active');
-            });
-
-            function updateAdminUI() {
-                const loggedIn = sessionStorage.getItem('admin_logged_in') === 'true';
-                if (loggedIn) {
-                    adminAuthSection.style.display = 'none';
-                    adminDashboard.style.display = 'block';
-                    adminBlogSection.style.display = 'none';
-                    adminFilmSection.style.display = 'none';
-                    adminMusicSection.style.display = 'none';
-                    adminCourseSection.style.display = 'none';
-                    adminAnalyticsSection.style.display = 'none';
-                    adminSecuritySection.style.display = 'none';
-                } else {
-                    adminAuthSection.style.display = 'block';
-                    adminDashboard.style.display = 'none';
-                }
-            }
-
-            adminCreateBtn.addEventListener('click', async () => {
-                const user = adminUsername.value.trim();
-                const pass = adminPassword.value.trim();
-                if (!user || !pass) {
-                    adminStatus.textContent = 'Please enter username and password';
-                    return;
-                }
-                const hash = await security.hashPassword(user + ':' + pass);
-                localStorage.setItem('admin_hash', hash);
-                localStorage.setItem('admin_created', 'true');
-                adminExists = true;
-                adminStatus.textContent = 'Profile created. You can now login.';
-            });
-
-            adminLoginBtn2.addEventListener('click', async () => {
-                try {
-                    security.checkRateLimit();
-                    const user = adminUsername.value.trim();
-                    const pass = adminPassword.value.trim();
-                    const storedHash = localStorage.getItem('admin_hash');
-                    const inputHash = await security.hashPassword(user + ':' + pass);
-                    
-                    if (inputHash === storedHash) {
-                        sessionStorage.setItem('admin_logged_in', 'true');
-                        security.startSessionTimer();
-                        adminStatus.textContent = 'Login successful';
-                        updateAdminUI();
-                        security.logAudit('login', 'Admin logged in');
-                    } else {
-                        security.recordFailedAttempt();
-                        adminStatus.textContent = 'Invalid credentials';
-                        security.logAudit('login_failed', 'Failed login attempt');
-                    }
-                } catch(e) {
-                    adminStatus.textContent = e.message;
-                }
-            });
-
-            adminLogout.addEventListener('click', () => {
-                security.logout();
             });
 
             // Initialize
             renderFilmGrid();
             renderBlogList();
-            renderCourses();
             setActivePage('home');
         })();
     </script>
